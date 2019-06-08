@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="appStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'appStore.dbo.AppMaster' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AppMaster">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="Published" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Version" Type="varchar" MaxLength="50" />
+          <Property Name="Icon" Type="varchar(max)" />
+          <Property Name="AndriodSmartPhoneBuild" Type="varchar(max)" />
+          <Property Name="AndriodTabletBuild" Type="varchar(max)" />
+          <Property Name="IphoneBuild" Type="varchar(max)" />
+          <Property Name="IphonePackageName" Type="varchar(max)" />
+          <Property Name="IpadBuild" Type="varchar(max)" />
+          <Property Name="IpadPackageName" Type="varchar(max)" />
+          <Property Name="ScreenShots" Type="varchar(max)" />
+          <Property Name="Documents" Type="varchar(max)" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="DocumentMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Documents" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ThirdParty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Version" Type="varchar(max)" />
+          <Property Name="ThirdPartyAppUrl" Type="varchar(max)" />
+          <Property Name="Documents" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="WebPageUrls">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="WebPageUrl" Type="varchar(max)" />
+          <Property Name="Documents" Type="varchar(max)" />
+        </EntityType>
+        <EntityContainer Name="appStoreModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentMaster" EntityType="Self.DocumentMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThirdParty" EntityType="Self.ThirdParty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebPageUrls" EntityType="Self.WebPageUrls" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppMaster" EntityType="Self.AppMaster" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AppMaster].[Id] AS [Id], 
+    [AppMaster].[CategoryId] AS [CategoryId], 
+    [AppMaster].[Title] AS [Title], 
+    [AppMaster].[Description] AS [Description], 
+    [AppMaster].[Version] AS [Version], 
+    [AppMaster].[Icon] AS [Icon], 
+    [AppMaster].[AndriodSmartPhoneBuild] AS [AndriodSmartPhoneBuild], 
+    [AppMaster].[AndriodTabletBuild] AS [AndriodTabletBuild], 
+    [AppMaster].[IphoneBuild] AS [IphoneBuild], 
+    [AppMaster].[IphonePackageName] AS [IphonePackageName], 
+    [AppMaster].[IpadBuild] AS [IpadBuild], 
+    [AppMaster].[IpadPackageName] AS [IpadPackageName], 
+    [AppMaster].[ScreenShots] AS [ScreenShots], 
+    [AppMaster].[Documents] AS [Documents], 
+    [AppMaster].[Published] AS [Published]
+    FROM [dbo].[AppMaster] AS [AppMaster]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="appStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DocumentMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Documents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ThirdParty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAppUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Documents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WebPageUrl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="WebPageUrl1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Documents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AppMaster">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="Published" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AndriodSmartPhoneBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AndriodTabletBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IphoneBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IphonePackageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IpadBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IpadPackageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ScreenShots" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Documents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="appStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="DocumentMasters" EntityType="Self.DocumentMaster" />
+          <EntitySet Name="ThirdParties" EntityType="Self.ThirdParty" />
+          <EntitySet Name="WebPageUrls" EntityType="Self.WebPageUrl" />
+          <EntitySet Name="AppMasters" EntityType="Self.AppMaster" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="appStoreModelStoreContainer" CdmEntityContainer="appStoreEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="appStoreModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentMasters">
+            <EntityTypeMapping TypeName="appStoreModel.DocumentMaster">
+              <MappingFragment StoreEntitySet="DocumentMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThirdParties">
+            <EntityTypeMapping TypeName="appStoreModel.ThirdParty">
+              <MappingFragment StoreEntitySet="ThirdParty">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ThirdPartyAppUrl" ColumnName="ThirdPartyAppUrl" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebPageUrls">
+            <EntityTypeMapping TypeName="appStoreModel.WebPageUrl">
+              <MappingFragment StoreEntitySet="WebPageUrls">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WebPageUrl1" ColumnName="WebPageUrl" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppMasters">
+            <EntityTypeMapping TypeName="appStoreModel.AppMaster">
+              <MappingFragment StoreEntitySet="AppMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="AndriodSmartPhoneBuild" ColumnName="AndriodSmartPhoneBuild" />
+                <ScalarProperty Name="AndriodTabletBuild" ColumnName="AndriodTabletBuild" />
+                <ScalarProperty Name="IphoneBuild" ColumnName="IphoneBuild" />
+                <ScalarProperty Name="IphonePackageName" ColumnName="IphonePackageName" />
+                <ScalarProperty Name="IpadBuild" ColumnName="IpadBuild" />
+                <ScalarProperty Name="IpadPackageName" ColumnName="IpadPackageName" />
+                <ScalarProperty Name="ScreenShots" ColumnName="ScreenShots" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
