@@ -21,5 +21,8 @@ namespace api.appstore.Models
         public string Version { get; set; }
         public string ThirdPartyAppUrl { get; set; }
         public string Documents { get; set; }
+        public bool IsDeleted { get; set; }
+        public System.DateTime CreatedTime { get; set; }
+        public Nullable<System.DateTime> DeletedTime { get; set; }
     }
 }

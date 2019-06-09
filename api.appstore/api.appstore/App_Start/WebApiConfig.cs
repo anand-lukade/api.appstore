@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using api.appstore.Models;
 using System.Web.Http;
 
 namespace api.appstore
@@ -13,7 +11,7 @@ namespace api.appstore
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            config.MessageHandlers.Add(new TokenValidationHandler());
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

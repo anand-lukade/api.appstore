@@ -14,21 +14,11 @@ namespace api.appstore.Controllers
             {
                 using (appStoreEntities entity = new appStoreEntities())
                 {
-
-                    if (master.Id != null)
-                    {
-
-                        var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
-                        app = master;
-                        entity.SaveChanges();
-                        return Ok("hosted app updated successfully");
-                    }
-                    else
-                    {
-                        entity.AppMasters.Add(master);
-                        entity.SaveChanges();
-                        return Ok("app updated successfully");
-                    }
+                    master.IsDeleted = false;
+                    master.DeletedTime = null;
+                    entity.AppMasters.Add(master);
+                    entity.SaveChanges();
+                    return Ok("app updated successfully");
                 }
             }
             catch (Exception ex)
@@ -37,6 +27,59 @@ namespace api.appstore.Controllers
             }
             
         }
+        [Route("HostedApps")]
+        public IHttpActionResult PutAppMaster(AppMaster master)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
+                    app.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
+                    app.AndriodTabletBuild = master.AndriodTabletBuild;
+                    app.CategoryId = master.CategoryId;
+                    app.Description = master.Description;
+                    app.Documents = master.Documents;
+                    app.Icon = master.Icon;
+                    app.IpadBuild = master.IpadBuild;
+                    app.IpadPackageName = master.IpadPackageName;
+                    app.IphoneBuild = master.IphoneBuild;
+                    app.IphonePackageName = master.IphonePackageName;
+                    app.Published = master.Published;
+                    app.ScreenShots = master.ScreenShots;
+                    app.Title = master.Title;
+                    app.Version = master.Version;                                      
+                    entity.SaveChanges();
+                    return Ok("hosted app updated successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [Route("HostedApps")]
+        public IHttpActionResult DeleteAppMaster(AppMaster master)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
+                    app.IsDeleted = true;
+                    app.DeletedTime = DateTime.Now;
+                    entity.SaveChanges();
+                    return Ok("hosted app updated successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        
         [Route("ThirdPartyApps")]
         public IHttpActionResult PostThirdPartyApp(ThirdParty master)
         {
@@ -44,19 +87,11 @@ namespace api.appstore.Controllers
             {
                 using (appStoreEntities entity = new appStoreEntities())
                 {
-                    if (master.Id != null)
-                    {
-                        var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
-                        app = master;
-                        entity.SaveChanges();
-                        return Ok("third party app changed successfully");
-                    }
-                    else
-                    {
-                        entity.ThirdParties.Add(master);
-                        entity.SaveChanges();
-                        return Ok("third party app added successfully");
-                    }
+                    master.IsDeleted = false;
+                    master.DeletedTime = null;
+                    entity.ThirdParties.Add(master);
+                    entity.SaveChanges();
+                    return Ok("third party app added successfully");
                 }
             }
             catch (Exception ex)
@@ -65,6 +100,51 @@ namespace api.appstore.Controllers
             }
 
         }
+        [Route("ThirdPartyApps")]
+        public IHttpActionResult PutThirdPartyApp(ThirdParty master)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
+                    app.CategoryId = master.CategoryId;
+                    app.Description = master.Description;
+                    app.Documents = master.Documents;
+                    app.ThirdPartyAppUrl = master.ThirdPartyAppUrl;
+                    app.Title = master.Title;
+                    app.Version = master.Version;                   
+                    entity.SaveChanges();
+                    return Ok("third party app changed successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [Route("ThirdPartyApps")]
+        public IHttpActionResult DeleteThirdPartyApp(Guid id)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id == id);
+                    app.IsDeleted = true;
+                    app.DeletedTime = DateTime.Now;
+                    entity.SaveChanges();
+                    return Ok("third party app changed successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
         [Route("Webpages")]
         public IHttpActionResult PostWebpages(WebPageUrl master)
         {
@@ -72,21 +152,11 @@ namespace api.appstore.Controllers
             {
                 using (appStoreEntities entity = new appStoreEntities())
                 {
-                    if (master.Id != null)
-                    {
-
-                        var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
-                        app = master;
-                        entity.SaveChanges();
-                        return Ok("web page app changed successfully");
-
-                    }
-                    else
-                    {
-                        entity.WebPageUrls.Add(master);
-                        entity.SaveChanges();
-                        return Ok("web page app added successfully");
-                    }
+                    master.IsDeleted = false;
+                    master.DeletedTime = null;                    
+                    entity.WebPageUrls.Add(master);
+                    entity.SaveChanges();
+                    return Ok("web page app added successfully");
                 }
             }
             catch (Exception ex)
@@ -95,6 +165,49 @@ namespace api.appstore.Controllers
 
             }
         }
+        [Route("Webpages")]
+        public IHttpActionResult PutWebpages(WebPageUrl master)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
+                    app.Description = master.Description;
+                    app.Documents = master.Documents;
+                    app.Title = master.Title;
+                    app.WebPageUrl1 = master.WebPageUrl1;
+                    entity.SaveChanges();
+                    return Ok("web page app changed successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+        [Route("Webpages/{id}")]
+        public IHttpActionResult DeleteWebpages(Guid id)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == id);
+                    app.IsDeleted = true;
+                    app.DeletedTime = DateTime.Now;
+                    entity.SaveChanges();
+                    return Ok("web page deleted successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
         [Route("Documents")]
         public IHttpActionResult PostDocuments(DocumentMaster master)
         {
@@ -102,19 +215,51 @@ namespace api.appstore.Controllers
             {
                 using (appStoreEntities entity = new appStoreEntities())
                 {
-                    if (master.Id != null)
-                    {
-                        var app = entity.DocumentMasters.FirstOrDefault(x => x.Id == master.Id);
-                        app = master;
-                        entity.SaveChanges();
-                        return Ok("web page app changed successfully");
-                    }
-                    else
-                    {
-                        entity.DocumentMasters.Add(master);
-                        entity.SaveChanges();
-                        return Ok("web page app added successfully");
-                    }
+                    master.DeletedTime = null;
+                    master.IsDeleted = false;
+                    entity.DocumentMasters.Add(master);
+                    entity.SaveChanges();
+                    return Ok("web page app added successfully");           
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("Documents")]
+        public IHttpActionResult PutDocuments(DocumentMaster master)
+        {
+            try
+            {
+
+                using (appStoreEntities entity = new appStoreEntities())
+                {                    
+                    var app = entity.DocumentMasters.FirstOrDefault(x => x.Id == master.Id);                    
+                    app.Description = master.Description;
+                    app.Documents = master.Documents;
+                    app.Title = master.Title;
+                    entity.SaveChanges();
+                    return Ok("web page app changed successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("Documents/{id}")]
+        public IHttpActionResult DeleteDocuments(Guid id)
+        {
+            try
+            {
+                using (appStoreEntities entity = new appStoreEntities())
+                {
+                    var app = entity.DocumentMasters.FirstOrDefault(x => x.Id == id);
+                    app.IsDeleted = true;
+                    app.DeletedTime = DateTime.Now;
+                    entity.SaveChanges();
+                    return Ok("web page app deleted successfully");
                 }
             }
             catch (Exception ex)

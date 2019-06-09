@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace api.appstore.Controllers
 {
+    [Authorize]
     public partial class AppController : ApiController
     {
         [Route("HostedApps")]
@@ -110,7 +111,7 @@ namespace api.appstore.Controllers
             try
             {
                 using (appStoreEntities entity = new appStoreEntities())
-                {
+                {                    
                     List<DocumentMaster> apps = entity.DocumentMasters.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
                     return Ok(apps);
                 }

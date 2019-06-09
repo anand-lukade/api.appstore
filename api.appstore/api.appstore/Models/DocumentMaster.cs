@@ -18,5 +18,8 @@ namespace api.appstore.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Documents { get; set; }
+        public bool IsDeleted { get; set; }
+        public System.DateTime CreatedTime { get; set; }
+        public Nullable<System.DateTime> DeletedTime { get; set; }
     }
 }

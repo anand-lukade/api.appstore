@@ -25,10 +25,12 @@ namespace api.appstore.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AppMaster> AppMasters { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<DocumentMaster> DocumentMasters { get; set; }
+        public virtual DbSet<LogMaster> LogMasters { get; set; }
         public virtual DbSet<ThirdParty> ThirdParties { get; set; }
         public virtual DbSet<WebPageUrl> WebPageUrls { get; set; }
-        public virtual DbSet<AppMaster> AppMasters { get; set; }
+        public virtual DbSet<UserInfo> UserInfoes { get; set; }
     }
 }

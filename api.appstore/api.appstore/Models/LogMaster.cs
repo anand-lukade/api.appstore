@@ -12,15 +12,10 @@ namespace api.appstore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WebPageUrl
+    public partial class LogMaster
     {
-        public System.Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string WebPageUrl1 { get; set; }
-        public string Documents { get; set; }
-        public bool IsDeleted { get; set; }
-        public System.DateTime CreatedTime { get; set; }
-        public Nullable<System.DateTime> DeletedTime { get; set; }
+        public int Id { get; set; }
+        public Nullable<System.DateTime> logtime { get; set; }
+        public string logtext { get; set; }
     }
 }
