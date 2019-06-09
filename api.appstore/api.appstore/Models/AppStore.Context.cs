@@ -13,10 +13,10 @@ namespace api.appstore.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class appStoreEntities : DbContext
+    public partial class MususAppEntities : DbContext
     {
-        public appStoreEntities()
-            : base("name=appStoreEntities")
+        public MususAppEntities()
+            : base("name=MususAppEntities")
         {
         }
     
@@ -30,7 +30,8 @@ namespace api.appstore.Models
         public virtual DbSet<DocumentMaster> DocumentMasters { get; set; }
         public virtual DbSet<LogMaster> LogMasters { get; set; }
         public virtual DbSet<ThirdParty> ThirdParties { get; set; }
-        public virtual DbSet<WebPageUrl> WebPageUrls { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
+        public virtual DbSet<WebPageUrl> WebPageUrls { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     }
 }

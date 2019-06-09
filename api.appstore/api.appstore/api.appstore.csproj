@@ -112,8 +112,8 @@
     <Content Include="Global.asax" />
     <Content Include="Models\AppStore.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AppStore.Context.cs</LastGenOutput>
       <DependentUpon>AppStore.edmx</DependentUpon>
+      <LastGenOutput>AppStore.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\AppStore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -152,6 +152,9 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\database_firewall_rules.cs">
+      <DependentUpon>AppStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DocumentMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
@@ -181,6 +184,7 @@
       <DependentUpon>AppStore.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\ApiMorrisonStore - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

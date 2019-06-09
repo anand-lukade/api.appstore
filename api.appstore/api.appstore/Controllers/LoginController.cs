@@ -21,7 +21,7 @@ namespace api.appstore.Controllers
                 {
                     return BadRequest("Username/Password is mandatory");
                 }
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var user = entity.UserInfoes.FirstOrDefault(
                         x => x.UserName == loginRequest.Username &&

@@ -14,7 +14,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     List<AppMaster> apps = entity.AppMasters.OrderBy(x => x.Documents).Skip(page-1).Take(10).ToList();
                     return Ok(apps);                    
@@ -30,7 +30,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
                     return Ok(app);
@@ -46,7 +46,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     List<ThirdParty> apps = entity.ThirdParties.OrderBy(x => x.Documents).Skip(page - 1).Take(10).ToList();
                     return Ok(apps);
@@ -62,7 +62,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == appId);
                     return Ok(app);
@@ -78,7 +78,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     List<WebPageUrl> apps = entity.WebPageUrls.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
                     return Ok(apps);
@@ -94,7 +94,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.WebPageUrls.FirstOrDefault(x => x.Id.ToString() == appId);
                     return Ok(app);
@@ -110,7 +110,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {                    
                     List<DocumentMaster> apps = entity.DocumentMasters.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
                     return Ok(apps);
@@ -126,7 +126,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.DocumentMasters.FirstOrDefault(x => x.Id.ToString() == appId);
                     return Ok(app);

@@ -12,7 +12,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     master.IsDeleted = false;
                     master.DeletedTime = null;
@@ -32,7 +32,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
                     app.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
@@ -64,7 +64,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
                     app.IsDeleted = true;
@@ -85,7 +85,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     master.IsDeleted = false;
                     master.DeletedTime = null;
@@ -105,7 +105,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
                     app.CategoryId = master.CategoryId;
@@ -129,7 +129,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.ThirdParties.FirstOrDefault(x => x.Id == id);
                     app.IsDeleted = true;
@@ -150,7 +150,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     master.IsDeleted = false;
                     master.DeletedTime = null;                    
@@ -170,7 +170,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
                     app.Description = master.Description;
@@ -192,7 +192,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == id);
                     app.IsDeleted = true;
@@ -213,7 +213,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     master.DeletedTime = null;
                     master.IsDeleted = false;
@@ -233,7 +233,7 @@ namespace api.appstore.Controllers
             try
             {
 
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {                    
                     var app = entity.DocumentMasters.FirstOrDefault(x => x.Id == master.Id);                    
                     app.Description = master.Description;
@@ -253,7 +253,7 @@ namespace api.appstore.Controllers
         {
             try
             {
-                using (appStoreEntities entity = new appStoreEntities())
+                using (MususAppEntities entity = new MususAppEntities())
                 {
                     var app = entity.DocumentMasters.FirstOrDefault(x => x.Id == id);
                     app.IsDeleted = true;
