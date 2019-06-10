@@ -18,11 +18,19 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     WebPageUrl master = new WebPageUrl();
-                    master.IsDeleted = false;
-                    master.DeletedTime = null;
-                    master.Id = Guid.NewGuid();
-                    UploadAttachments(master);
-                    entity.WebPageUrls.Add(master);
+                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
+                    if (app != null)
+                    {
+                        UploadAttachments(app);
+                    }
+                    else
+                    {
+                        master.IsDeleted = false;
+                        master.DeletedTime = null;
+                        master.Id = Guid.NewGuid();
+                        UploadAttachments(master);
+                        entity.WebPageUrls.Add(master);
+                    }                   
                     entity.SaveChanges();
                     return Ok(master);
                 }
@@ -33,28 +41,28 @@ namespace api.appstore.Controllers
 
             }
         }
-        [Route("Webpages")]
-        public IHttpActionResult PutWebpages(WebPageUrl master)
-        {
-            try
-            {
-                using (MususAppEntities entity = new MususAppEntities())
-                {
-                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
-                    app.Description = master.Description;
-                    app.Documents = master.Documents;
-                    app.Title = master.Title;
-                    app.WebPageUrl1 = master.WebPageUrl1;
-                    entity.SaveChanges();
-                    return Ok("web page app changed successfully");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+        //[Route("Webpages")]
+        //public IHttpActionResult PutWebpages(WebPageUrl master)
+        //{
+        //    try
+        //    {
+        //        using (MususAppEntities entity = new MususAppEntities())
+        //        {
+        //            var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
+        //            app.Description = master.Description;
+        //            app.Documents = master.Documents;
+        //            app.Title = master.Title;
+        //            app.WebPageUrl1 = master.WebPageUrl1;
+        //            entity.SaveChanges();
+        //            return Ok("web page app changed successfully");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
 
-            }
-        }
+        //    }
+        //}
         [Route("Webpages/{id}")]
         public IHttpActionResult DeleteWebpages(Guid id)
         {

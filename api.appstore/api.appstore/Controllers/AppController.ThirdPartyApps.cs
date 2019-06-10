@@ -18,11 +18,19 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {                    
                     ThirdParty master = new ThirdParty();
-                    master.IsDeleted = false;
-                    master.DeletedTime = null;
-                    master.Id = Guid.NewGuid();
-                    UploadAttachments(master);
-                    entity.ThirdParties.Add(master);
+                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
+                    if (app != null)
+                    {
+                        UploadAttachments(app);
+                    }
+                    else
+                    {
+                        master.IsDeleted = false;
+                        master.DeletedTime = null;
+                        master.Id = Guid.NewGuid();
+                        UploadAttachments(master);
+                        entity.ThirdParties.Add(master);
+                    }                                       
                     entity.SaveChanges();
                     return Ok(master);
                 }
@@ -33,30 +41,30 @@ namespace api.appstore.Controllers
             }
 
         }
-        [Route("ThirdPartyApps")]
-        public IHttpActionResult PutThirdPartyApp(ThirdParty master)
-        {
-            try
-            {
-                using (MususAppEntities entity = new MususAppEntities())
-                {
-                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
-                    app.CategoryId = master.CategoryId;
-                    app.Description = master.Description;
-                    app.Documents = master.Documents;
-                    app.ThirdPartyAppUrl = master.ThirdPartyAppUrl;
-                    app.Title = master.Title;
-                    app.Version = master.Version;                   
-                    entity.SaveChanges();
-                    return Ok("third party app changed successfully");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        //[Route("ThirdPartyApps")]
+        //public IHttpActionResult PutThirdPartyApp(ThirdParty master)
+        //{
+        //    try
+        //    {
+        //        using (MususAppEntities entity = new MususAppEntities())
+        //        {
+        //            var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
+        //            app.CategoryId = master.CategoryId;
+        //            app.Description = master.Description;
+        //            app.Documents = master.Documents;
+        //            app.ThirdPartyAppUrl = master.ThirdPartyAppUrl;
+        //            app.Title = master.Title;
+        //            app.Version = master.Version;                   
+        //            entity.SaveChanges();
+        //            return Ok("third party app changed successfully");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
 
-        }
+        //}
         [Route("ThirdPartyApps")]
         public IHttpActionResult DeleteThirdPartyApp(Guid id)
         {

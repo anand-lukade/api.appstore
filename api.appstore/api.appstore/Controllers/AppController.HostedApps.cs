@@ -19,12 +19,20 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     AppMaster master = new AppMaster();
-                    master.Id = Guid.NewGuid();
-                    master.IsDeleted = false;
-                    master.CreatedTime = DateTime.UtcNow;
-                    master.DeletedTime = null;
-                    UploadAttachments(master);
-                    entity.AppMasters.Add(master);
+                    var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);                    
+                    if (app!=null)                    
+                    {
+                        UploadAttachments(app);                       
+                    }
+                    else
+                    {
+                        master.Id = Guid.NewGuid();
+                        UploadAttachments(master);
+                        master.CreatedTime = DateTime.UtcNow;
+                        master.IsDeleted = false;
+                        master.DeletedTime = null;
+                        entity.AppMasters.Add(master);
+                    }                    
                     entity.SaveChanges();
                     return Ok(master);
                 }
@@ -35,38 +43,49 @@ namespace api.appstore.Controllers
             }
             
         }
-        [Route("HostedApps")]
-        public IHttpActionResult PutAppMaster(AppMaster master)
-        {
-            try
-            {
-                using (MususAppEntities entity = new MususAppEntities())
-                {
-                    var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
-                    app.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
-                    app.AndriodTabletBuild = master.AndriodTabletBuild;
-                    app.CategoryId = master.CategoryId;
-                    app.Description = master.Description;
-                    app.Documents = master.Documents;
-                    app.Icon = master.Icon;
-                    app.IpadBuild = master.IpadBuild;
-                    app.IpadPackageName = master.IpadPackageName;
-                    app.IphoneBuild = master.IphoneBuild;
-                    app.IphonePackageName = master.IphonePackageName;
-                    app.Published = master.Published;
-                    app.ScreenShots = master.ScreenShots;
-                    app.Title = master.Title;
-                    app.Version = master.Version;                                      
-                    entity.SaveChanges();
-                    return Ok("hosted app updated successfully");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        //[Route("HostedApps")]
+        //public IHttpActionResult PutAppMaster(AppMaster master)
+        //{
+        //    try
+        //    {
+        //        using (MususAppEntities entity = new MususAppEntities())
+        //        {
+        //            var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
+        //            if(app!=null)
+        //            {
+        //                app.CategoryId = master.CategoryId;
+        //                app.Description = master.Description;
 
-        }
+        //                app.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
+        //                app.AndriodTabletBuild = master.AndriodTabletBuild;
+                        
+        //                app.Documents = master.Documents;
+        //                app.Icon = master.Icon;
+        //                app.IpadBuild = master.IpadBuild;
+        //                app.IpadPackageName = master.IpadPackageName;
+        //                app.IphoneBuild = master.IphoneBuild;
+        //                app.IphonePackageName = master.IphonePackageName;
+        //                app.Published = master.Published;
+        //                app.ScreenShots = master.ScreenShots;
+        //                app.Title = master.Title;
+        //                app.Version = master.Version;
+        //                entity.SaveChanges();
+        //                return Ok(app);
+        //            }
+        //            else
+        //            {
+        //                return BadRequest("INvalid request");
+        //            }
+                                                      
+                    
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+
+        //}
         [Route("HostedApps")]
         public IHttpActionResult DeleteAppMaster(AppMaster master)
         {
