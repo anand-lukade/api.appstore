@@ -32,7 +32,8 @@ namespace api.appstore.Controllers
                 {
                     Id = qrId
                 };
-                var apiresult = new CommonModels().Post<QRLoginUserModel>("Personnel_InfoClass", model);
+                var apiresult = new CommonModels().
+                    Post<QRLoginUserModel>("Personnel_InfoClass", model);
                 apiresult.Wait();
                 if (apiresult.Result.IsSuccessStatusCode)
                 {
@@ -48,7 +49,7 @@ namespace api.appstore.Controllers
                             Lastname = info.LastName,
                             IsAdmin = false,
                             Token = token,
-                            TokenValidity = DateTime.UtcNow.AddHours(int.Parse(ConfigurationManager.AppSettings["TokenValidDuration"])),
+                            TokenValidity = DateTime.UtcNow.AddDays(Convert.ToInt16(ConfigurationManager.AppSettings["jwtValidity"])),
                             IsActive = true
                         });
                     }
