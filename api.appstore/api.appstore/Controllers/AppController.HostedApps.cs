@@ -1,6 +1,7 @@
 ﻿using api.appstore.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -112,31 +113,32 @@ namespace api.appstore.Controllers
                     {
                         string str_uploadpath = HttpContext.Current.Server.MapPath("/UploadBuckets/");
                         var filePath = str_uploadpath + master.Id+"_"+ Path.GetFileName(postedFile.FileName);
+                        var serverAddress= ConfigurationManager.AppSettings["webStore"]+"UploadBuckets/" + master.Id + "_" + Path.GetFileName(postedFile.FileName);
                         postedFile.SaveAs(filePath);
                         switch (file)
                         {
                             case "AndriodSmartPhoneBuild":
-                                master.AndriodSmartPhoneBuild = filePath;
+                                master.AndriodSmartPhoneBuild = serverAddress;
                                 break;
 
                             case "AndriodTabletBuild":
-                                master.AndriodTabletBuild = filePath;
+                                master.AndriodTabletBuild = serverAddress;
                                 break;
 
                             case "IphoneBuild":
-                                master.IphoneBuild = filePath;
+                                master.IphoneBuild = serverAddress;
                                 break;
 
                             case "IpadBuild":
-                                master.IpadBuild = filePath;
+                                master.IpadBuild = serverAddress;
                                 break;
 
                             case "ScreenShots":
-                                master.ScreenShots += filePath+";";
+                                master.ScreenShots += serverAddress + ";";
                                 break;
 
                             case "Documents":
-                                master.Documents += filePath +";";                               
+                                master.Documents += serverAddress + ";";                               
                                 break;
                         }
                     }

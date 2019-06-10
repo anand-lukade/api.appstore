@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.IO;
+using System.Configuration;
 
 namespace api.appstore.Controllers
 {
@@ -94,10 +95,11 @@ namespace api.appstore.Controllers
                         string str_uploadpath = HttpContext.Current.Server.MapPath("/UploadBuckets/");
                         var filePath = str_uploadpath + master.Id + "_" + Path.GetFileName(postedFile.FileName);
                         postedFile.SaveAs(filePath);
+                        var serverAddress = ConfigurationManager.AppSettings["webStore"] + "UploadBuckets/" + master.Id + "_" + Path.GetFileName(postedFile.FileName);
                         switch (file)
                         {
                             case "Documents":
-                                master.Documents += filePath + ";";
+                                master.Documents += serverAddress + ";";
                                 break;
                         }
                     }
