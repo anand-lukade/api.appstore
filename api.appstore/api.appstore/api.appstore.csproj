@@ -126,7 +126,10 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AppController.Save.cs" />
+    <Compile Include="Controllers\AppController.HostedApps.cs" />
+    <Compile Include="Controllers\AppController.Webpages.cs" />
+    <Compile Include="Controllers\AppController.ThirdPartyApps.cs" />
+    <Compile Include="Controllers\AppController.Documents.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
