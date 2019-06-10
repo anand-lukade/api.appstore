@@ -24,7 +24,7 @@ namespace api.appstore.Controllers
                     UploadAttachments(master);
                     entity.ThirdParties.Add(master);
                     entity.SaveChanges();
-                    return Ok("third party app added successfully");
+                    return Ok(master);
                 }
             }
             catch (Exception ex)

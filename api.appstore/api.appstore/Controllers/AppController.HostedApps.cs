@@ -26,7 +26,7 @@ namespace api.appstore.Controllers
                     UploadAttachments(master);
                     entity.AppMasters.Add(master);
                     entity.SaveChanges();
-                    return Ok("app updated successfully");
+                    return Ok(master);
                 }
             }
             catch (Exception ex)

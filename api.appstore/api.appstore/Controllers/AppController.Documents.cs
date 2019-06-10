@@ -24,7 +24,7 @@ namespace api.appstore.Controllers
                     UploadAttachments(master);
                     entity.DocumentMasters.Add(master);
                     entity.SaveChanges();
-                    return Ok("web page app added successfully");           
+                    return Ok(master);           
                 }
             }
             catch (Exception ex)
