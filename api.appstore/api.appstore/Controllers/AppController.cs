@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace api.appstore.Controllers
 {    
+    [Authorize]
     public partial class AppController : ApiController
     {
         [Route("HostedApps")]
