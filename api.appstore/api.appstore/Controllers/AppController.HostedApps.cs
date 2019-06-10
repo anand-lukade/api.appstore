@@ -18,8 +18,11 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     AppMaster master = new AppMaster();
+                    master.Id = Guid.NewGuid();
                     master.IsDeleted = false;
-                    master.DeletedTime = null;                    
+                    master.CreatedTime = DateTime.UtcNow;
+                    master.DeletedTime = null;
+                    UploadAttachments(master);
                     entity.AppMasters.Add(master);
                     entity.SaveChanges();
                     return Ok("app updated successfully");
@@ -84,10 +87,8 @@ namespace api.appstore.Controllers
 
         }
 
-        private AppMaster UploadAttachments(AppMaster master)
-        {            
-            master.Id = Guid.NewGuid();
-            
+        private void UploadAttachments(AppMaster master)
+        {                      
             var httpRequest = HttpContext.Current.Request;
             master.Title = httpRequest.Params["title"];
             master.Description = httpRequest.Params["description"];
@@ -139,8 +140,7 @@ namespace api.appstore.Controllers
                         }
                     }
                 }
-            }  
-            return master;                      
+            }                                 
         }
     }
 }
