@@ -10,14 +10,16 @@ namespace api.appstore.Controllers
     public partial class AppController
     {                        
         [Route("Webpages")]
-        public IHttpActionResult PostWebpages(WebPageUrl master)
+        public IHttpActionResult PostWebpages()
         {
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
+                    WebPageUrl master = new WebPageUrl();
                     master.IsDeleted = false;
                     master.DeletedTime = null;
+                    master.Id = Guid.NewGuid();
                     UploadAttachments(master);
                     entity.WebPageUrls.Add(master);
                     entity.SaveChanges();
@@ -75,6 +77,9 @@ namespace api.appstore.Controllers
         private void UploadAttachments(WebPageUrl master)
         {
             var httpRequest = HttpContext.Current.Request;
+            master.Title = httpRequest.Params["title"];
+            master.Description = httpRequest.Params["description"];
+            master.WebPageUrl1 = httpRequest.Params["webPageUrl"];
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";

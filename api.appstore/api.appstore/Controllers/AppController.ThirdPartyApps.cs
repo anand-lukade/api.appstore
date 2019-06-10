@@ -10,14 +10,16 @@ namespace api.appstore.Controllers
     public partial class AppController
     {                
         [Route("ThirdPartyApps")]
-        public IHttpActionResult PostThirdPartyApp(ThirdParty master)
+        public IHttpActionResult PostThirdPartyApp()
         {
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
-                {
+                {                    
+                    ThirdParty master = new ThirdParty();
                     master.IsDeleted = false;
                     master.DeletedTime = null;
+                    master.Id = Guid.NewGuid();
                     UploadAttachments(master);
                     entity.ThirdParties.Add(master);
                     entity.SaveChanges();
@@ -79,6 +81,10 @@ namespace api.appstore.Controllers
         private void UploadAttachments(ThirdParty master)
         {
             var httpRequest = HttpContext.Current.Request;
+            master.Title = httpRequest.Params["title"];
+            master.Description = httpRequest.Params["description"];
+            master.Version = httpRequest.Params["version"];
+            master.ThirdPartyAppUrl = httpRequest.Params["thirdPartyAppUrl"];
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";
@@ -104,6 +110,6 @@ namespace api.appstore.Controllers
                     }
                 }
             }
-        }
+        }        
     }
 }

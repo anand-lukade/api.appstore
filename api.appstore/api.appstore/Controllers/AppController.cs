@@ -137,5 +137,22 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Route("Categories")]
+        public IHttpActionResult GetCategories()
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+                    var app = entity.Categories.ToList();
+                    return Ok(app);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

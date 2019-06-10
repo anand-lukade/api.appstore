@@ -10,12 +10,14 @@ namespace api.appstore.Controllers
     public partial class AppController
     {                                
         [Route("Documents")]
-        public IHttpActionResult PostDocuments(DocumentMaster master)
+        public IHttpActionResult PostDocuments()
         {
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
+                    DocumentMaster master = new DocumentMaster();
+                    master.Id = Guid.NewGuid();
                     master.DeletedTime = null;
                     master.IsDeleted = false;
                     UploadAttachments(master);
@@ -73,6 +75,9 @@ namespace api.appstore.Controllers
         private void UploadAttachments(DocumentMaster master)
         {
             var httpRequest = HttpContext.Current.Request;
+            master.Title = httpRequest.Params["title"];
+            master.Description = httpRequest.Params["description"];
+            
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";
