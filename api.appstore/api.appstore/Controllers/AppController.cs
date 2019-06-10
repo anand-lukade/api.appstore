@@ -153,5 +153,49 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Route("Categories")]
+        public IHttpActionResult PostCategory(Category category)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+                    entity.Categories.Add(category);
+                    entity.SaveChanges();
+                    return Ok(category);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("Categories/{id}")]
+        public IHttpActionResult DeleteCategory(int id)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+                    var cat = entity.Categories.FirstOrDefault(x => x.Id == id);
+                    if(cat==null)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        entity.Categories.Remove(cat);
+                        entity.SaveChanges();
+                        return Ok();
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
