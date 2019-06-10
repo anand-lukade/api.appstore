@@ -4,6 +4,7 @@ using System;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Http;
@@ -12,6 +13,60 @@ namespace api.appstore.Controllers
 {
     public class LoginController : ApiController
     {
+
+        [HttpPost]
+        [Route("QRLogin")]
+        public IHttpActionResult QRLogin(QRRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(request.QrCode))
+                {
+                    return BadRequest("QR code is required");
+                }
+                var qrCodeID = request.QrCode.Split('?');
+                string[] stringSeparators = new string[] { "Num" };
+                var splitCode = qrCodeID[1].Split(stringSeparators, StringSplitOptions.None);
+                var qrId = splitCode[0].Split('=')[1];
+                var model = new QRLoginUserModel
+                {
+                    Id = qrId
+                };
+                var apiresult = new CommonModels().Post<QRLoginUserModel>("Personnel_InfoClass", model);
+                apiresult.Wait();
+                if (apiresult.Result.IsSuccessStatusCode)
+                {
+                    var readTask = apiresult.Result.Content.ReadAsAsync<QRLoginUserModel>();
+                    readTask.Wait();
+                    var info = readTask.Result;
+                    if (info.IsActive)
+                    {
+                        string token = CreateToken(info.FirstName + "." + info.LastName);
+                        return Ok(new UserDetails()
+                        {
+                            Firstname = info.FirstName,
+                            Lastname = info.LastName,
+                            IsAdmin = false,
+                            Token = token,
+                            TokenValidity = DateTime.UtcNow.AddHours(int.Parse(ConfigurationManager.AppSettings["TokenValidDuration"])),
+                            IsActive = true
+                        });
+                    }
+                    else
+                    {
+                        return BadRequest("User is inactive");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Saleforce server unable to validate");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [Route("Login")]
         public IHttpActionResult Login(LoginRequest loginRequest)
         {
