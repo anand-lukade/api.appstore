@@ -95,7 +95,8 @@ namespace api.appstore.Controllers
             master.Version= httpRequest.Params["version"];
             master.IphonePackageName = httpRequest.Params["iphonePackageName"];
             master.IpadPackageName = httpRequest.Params["ipadPackageName"];
-            master.Published = Convert.ToBoolean(httpRequest.Params["published"]);
+            master.Published = httpRequest.Params["published"]!=null? 
+                Convert.ToBoolean(httpRequest.Params["published"]) :false;
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";
