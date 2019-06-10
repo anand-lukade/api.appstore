@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using api.appstore.Models;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace api.appstore.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UploadController : ApiController
     {
         public HttpResponseMessage Post()
         {
             HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;
+            var a=httpRequest.Params["username"];
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";

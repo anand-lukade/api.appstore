@@ -17,7 +17,8 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     master.IsDeleted = false;
-                    master.DeletedTime = null;                    
+                    master.DeletedTime = null;
+                    UploadAttachments(master);
                     entity.WebPageUrls.Add(master);
                     entity.SaveChanges();
                     return Ok("web page app added successfully");

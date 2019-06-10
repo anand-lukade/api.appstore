@@ -18,6 +18,7 @@ namespace api.appstore.Controllers
                 {
                     master.IsDeleted = false;
                     master.DeletedTime = null;
+                    UploadAttachments(master);
                     entity.ThirdParties.Add(master);
                     entity.SaveChanges();
                     return Ok("third party app added successfully");

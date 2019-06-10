@@ -11,15 +11,15 @@ namespace api.appstore.Controllers
     public partial class AppController
     {
         [Route("HostedApps")]
-        public IHttpActionResult PostAppMaster(AppMaster master)
+        public IHttpActionResult PostAppMaster()
         {
             try
-            {
+            {                
                 using (MususAppEntities entity = new MususAppEntities())
                 {
+                    AppMaster master = new AppMaster();
                     master.IsDeleted = false;
-                    master.DeletedTime = null;
-                    UploadAttachments(master);
+                    master.DeletedTime = null;                    
                     entity.AppMasters.Add(master);
                     entity.SaveChanges();
                     return Ok("app updated successfully");
@@ -84,9 +84,17 @@ namespace api.appstore.Controllers
 
         }
 
-        private void UploadAttachments(AppMaster master)
-        {
+        private AppMaster UploadAttachments(AppMaster master)
+        {            
+            master.Id = Guid.NewGuid();
+            
             var httpRequest = HttpContext.Current.Request;
+            master.Title = httpRequest.Params["title"];
+            master.Description = httpRequest.Params["description"];
+            master.Version= httpRequest.Params["version"];
+            master.IphonePackageName = httpRequest.Params["iphonePackageName"];
+            master.IpadPackageName = httpRequest.Params["ipadPackageName"];
+            master.Published = Convert.ToBoolean(httpRequest.Params["published"]);
             if (httpRequest.Files.Count > 0)
             {
                 string path = "~/UploadBuckets/";
@@ -131,7 +139,8 @@ namespace api.appstore.Controllers
                         }
                     }
                 }
-            }                        
+            }  
+            return master;                      
         }
     }
 }

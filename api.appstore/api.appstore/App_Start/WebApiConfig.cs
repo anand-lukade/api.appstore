@@ -10,6 +10,7 @@ namespace api.appstore
             // Web API configuration and services
 
             // Web API routes
+            config.EnableCors();
             config.MapHttpAttributeRoutes();
             config.MessageHandlers.Add(new TokenValidationHandler());
             config.Routes.MapHttpRoute(
