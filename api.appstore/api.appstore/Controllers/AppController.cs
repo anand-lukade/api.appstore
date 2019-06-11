@@ -69,7 +69,7 @@ namespace api.appstore.Controllers
             dto.Published = master.Published;
             dto.Title = master.Title;
             dto.Version = master.Version;
-            if (master.Documents.Length > 0)
+            if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });   
                 foreach(var doc in documents)
@@ -78,7 +78,7 @@ namespace api.appstore.Controllers
                 }
                 
             }
-            if (master.ScreenShots.Length > 0)
+            if (master.ScreenShots!=null)
             {
                 var screenShots = master.ScreenShots.Split(new char[] { ';' });
                 foreach (var doc in screenShots)
@@ -142,7 +142,7 @@ namespace api.appstore.Controllers
             dto.ThirdPartyAppUrl = master.ThirdPartyAppUrl;            
             dto.Title = master.Title;
             dto.Version = master.Version;
-            if (master.Documents.Length > 0)
+            if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
                 dto.Documents = documents.ToList();
@@ -200,7 +200,7 @@ namespace api.appstore.Controllers
             dto.IsDeleted = master.IsDeleted;         
             dto.Title = master.Title;
             dto.WebPageUrl = master.WebPageUrl1;            
-            if (master.Documents.Length > 0)
+            if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
                 dto.Documents = documents.ToList();
@@ -249,7 +249,7 @@ namespace api.appstore.Controllers
             dto.Id = master.Id;
             dto.IsDeleted = master.IsDeleted;
             dto.Title = master.Title;            
-            if (master.Documents.Length > 0)
+            if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
                 dto.Documents = documents.ToList();

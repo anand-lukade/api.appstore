@@ -17,16 +17,11 @@ namespace api.appstore.Models
         public string IphonePackageName { get; set; }
         public string IpadBuild { get; set; }
         public string IpadPackageName { get; set; }
-        public List<string> ScreenShots { get; set; }
-        public List<string> Documents { get; set; }
+        public List<string> ScreenShots { get; set; } = new List<string>();
+        public List<string> Documents { get; set; } = new List<string>();
         public bool Published { get; set; }
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedTime { get; set; }
-        public Nullable<System.DateTime> DeletedTime { get; set; }
-        public AppMasterDto()
-        {
-            ScreenShots = new List<string>();
-            Documents = new List<string>();
-        }
+        public Nullable<System.DateTime> DeletedTime { get; set; }        
     }
 }
