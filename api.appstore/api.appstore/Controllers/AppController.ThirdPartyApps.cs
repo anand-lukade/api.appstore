@@ -16,15 +16,21 @@ namespace api.appstore.Controllers
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
-                {                    
-                    ThirdParty master = new ThirdParty();
-                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id == master.Id);
-                    if (app != null)
+                {
+                    var httpRequest = HttpContext.Current.Request;
+                    ThirdParty master = null;
+                    if (httpRequest.Params["Id"]!=null)
                     {
-                        UploadAttachments(app);
-                    }
+                       master = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == httpRequest.Params["Id"]);
+                        if (master != null)
+                        {
+                            UploadAttachments(master);
+                        }
+
+                    }                                       
                     else
                     {
+                        master = new ThirdParty();
                         master.IsDeleted = false;
                         master.DeletedTime = null;
                         master.Id = Guid.NewGuid();
