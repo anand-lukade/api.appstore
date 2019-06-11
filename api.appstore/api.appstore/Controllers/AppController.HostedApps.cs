@@ -110,7 +110,9 @@ namespace api.appstore.Controllers
         private void UploadAttachments(AppMaster master)
         {                      
             var httpRequest = HttpContext.Current.Request;
+            master.CategoryId = Convert.ToInt16(httpRequest.Params["categoryId"]);
             master.Title = httpRequest.Params["title"];
+            
             master.Description = httpRequest.Params["description"];
             master.Version= httpRequest.Params["version"];
             master.IphonePackageName = httpRequest.Params["iphonePackageName"];
