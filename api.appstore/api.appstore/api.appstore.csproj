@@ -149,6 +149,7 @@
     <Compile Include="Models\AppMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppMasterDto.cs" />
     <Compile Include="Models\AppStore.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -174,6 +175,7 @@
     <Compile Include="Models\DocumentMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentMasterDto.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\LogMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
@@ -183,6 +185,7 @@
     <Compile Include="Models\ThirdParty.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ThirdPartyDto.cs" />
     <Compile Include="Models\TokenValidationHandler.cs" />
     <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\UserInfo.cs">
@@ -191,6 +194,7 @@
     <Compile Include="Models\WebPageUrl.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WebpageUrlDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

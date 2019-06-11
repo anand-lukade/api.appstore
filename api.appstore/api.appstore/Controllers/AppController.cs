@@ -17,7 +17,14 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    List<AppMaster> apps = entity.AppMasters.OrderBy(x => x.Documents).Skip(page-1).Take(10).ToList();
+                    List<AppMaster> appmasters = entity.AppMasters.OrderBy(x => x.Documents).Skip(page-1).Take(10).ToList();
+                    List<AppMasterDto> apps = new List<AppMasterDto>(); 
+                    foreach(var master in appmasters)
+                    {
+                        AppMasterDto dto = new AppMasterDto();
+                        MapHostedAppObject(master, dto);
+                        apps.Add(dto);
+                    }                    
                     return Ok(apps);                    
                 }                    
             }
@@ -33,7 +40,9 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var app = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                    AppMasterDto app = new AppMasterDto();
+                    MapHostedAppObject(appMaster, app);
                     return Ok(app);
                 }
             }
@@ -42,6 +51,37 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        private void MapHostedAppObject(AppMaster master, AppMasterDto dto)
+        {
+            dto.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
+            dto.AndriodTabletBuild = master.AndriodTabletBuild;
+            dto.CategoryId = master.CategoryId;
+            dto.CreatedTime = master.CreatedTime;
+            dto.DeletedTime = master.DeletedTime;
+            dto.Description = master.Description;
+            dto.Icon = master.Icon;
+            dto.Id = master.Id;
+            dto.IpadBuild = master.IpadBuild;
+            dto.IpadPackageName = master.IpadPackageName;
+            dto.IphoneBuild = master.IphoneBuild;
+            dto.IphonePackageName = master.IphonePackageName;
+            dto.IsDeleted = master.IsDeleted;
+            dto.Published = master.Published;
+            dto.Title = master.Title;
+            dto.Version = master.Version;
+            if (master.Documents.Length > 0)
+            {
+                var documents = master.Documents.Split(new char[] { ';' });
+                dto.Documents = documents.ToList();
+            }
+            if (master.ScreenShots.Length > 0)
+            {
+                var screenShots = master.ScreenShots.Split(new char[] { ';' });
+                dto.ScreenShots = screenShots.ToList();
+            }
+        }
+
+
         [Route("ThirdPartyApps")]
         public IHttpActionResult GetThirdPartyApps(int page = 1, int size = 10)
         {
@@ -49,7 +89,14 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    List<ThirdParty> apps = entity.ThirdParties.OrderBy(x => x.Documents).Skip(page - 1).Take(10).ToList();
+                    List<ThirdParty> appmasters = entity.ThirdParties.OrderBy(x => x.Documents).Skip(page - 1).Take(10).ToList();
+                    List<ThirdPartyDto> apps = new List<ThirdPartyDto>();
+                    foreach(var app in appmasters)
+                    {
+                        ThirdPartyDto dto = new ThirdPartyDto();
+                        MapThirdPartyApp(app, dto);
+                        apps.Add(dto);
+                    }
                     return Ok(apps);
                 }
             }
@@ -65,7 +112,9 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var app = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var appMaster = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == appId);
+                    ThirdPartyDto app = new ThirdPartyDto();
+                    MapThirdPartyApp(appMaster, app);
                     return Ok(app);
                 }
             }
@@ -74,6 +123,26 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        private void MapThirdPartyApp(ThirdParty master, ThirdPartyDto dto)
+        {            
+            dto.CategoryId = master.CategoryId;
+            dto.CreatedTime = master.CreatedTime;
+            dto.DeletedTime = master.DeletedTime;
+            dto.Description = master.Description;
+            
+            dto.Id = master.Id;
+            dto.IsDeleted = master.IsDeleted;
+            dto.ThirdPartyAppUrl = master.ThirdPartyAppUrl;            
+            dto.Title = master.Title;
+            dto.Version = master.Version;
+            if (master.Documents.Length > 0)
+            {
+                var documents = master.Documents.Split(new char[] { ';' });
+                dto.Documents = documents.ToList();
+            }            
+        }
+
+
         [Route("Webpages")]
         public IHttpActionResult GetWebPages(int page = 1, int size = 10)
         {
@@ -82,7 +151,14 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     List<WebPageUrl> apps = entity.WebPageUrls.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
-                    return Ok(apps);
+                    List<WebpageUrlDto> dtos = new List<WebpageUrlDto>();
+                    foreach (var app in apps)
+                    {
+                        WebpageUrlDto dto = new WebpageUrlDto();
+                        MapWebpageApp(app, dto);
+                        dtos.Add(dto);
+                    }
+                    return Ok(dtos);
                 }
             }
             catch (Exception ex)
@@ -97,7 +173,9 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var appMaster = entity.WebPageUrls.FirstOrDefault(x => x.Id.ToString() == appId);
+                    WebpageUrlDto app = new WebpageUrlDto();
+                    MapWebpageApp(appMaster, app);
                     return Ok(app);
                 }
             }
@@ -106,6 +184,23 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        private void MapWebpageApp(WebPageUrl master, WebpageUrlDto dto)
+        {           
+            dto.CreatedTime = master.CreatedTime;
+            dto.DeletedTime = master.DeletedTime;
+            dto.Description = master.Description;
+            dto.Id = master.Id;
+            dto.IsDeleted = master.IsDeleted;         
+            dto.Title = master.Title;
+            dto.WebPageUrl = master.WebPageUrl1;            
+            if (master.Documents.Length > 0)
+            {
+                var documents = master.Documents.Split(new char[] { ';' });
+                dto.Documents = documents.ToList();
+            }
+        }
+
+
         [Route("Documents")]
         public IHttpActionResult GetDocuments(int page = 1, int size = 10)
         {
@@ -136,6 +231,21 @@ namespace api.appstore.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        private void MapDocuments(DocumentMaster master, DocumentMasterDto dto)
+        {
+            dto.CreatedTime = master.CreatedTime;
+            dto.DeletedTime = master.DeletedTime;
+            dto.Description = master.Description;
+            dto.Id = master.Id;
+            dto.IsDeleted = master.IsDeleted;
+            dto.Title = master.Title;            
+            if (master.Documents.Length > 0)
+            {
+                var documents = master.Documents.Split(new char[] { ';' });
+                dto.Documents = documents.ToList();
             }
         }
 
@@ -199,5 +309,7 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        
     }
 }

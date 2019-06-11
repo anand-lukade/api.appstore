@@ -112,6 +112,10 @@ namespace api.appstore.Controllers
                                 master.Documents += serverAddress + ";";
                                 break;
                         }
+                        if (master.Documents.Length > 0)
+                        {
+                            master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
+                        }
                     }
                 }
             }

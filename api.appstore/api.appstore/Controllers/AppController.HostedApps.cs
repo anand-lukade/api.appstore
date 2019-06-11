@@ -162,6 +162,14 @@ namespace api.appstore.Controllers
                         }
                     }
                 }
+                if (master.Documents.Length > 0)
+                {
+                    master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
+                }
+                if (master.ScreenShots.Length > 0)
+                {
+                    master.ScreenShots = master.ScreenShots.Substring(0, master.ScreenShots.Length - 1);
+                }
             }                                 
         }
     }
