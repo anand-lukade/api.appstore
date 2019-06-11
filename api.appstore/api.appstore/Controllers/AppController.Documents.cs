@@ -17,17 +17,27 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    DocumentMaster master = new DocumentMaster();
-                    var app = entity.WebPageUrls.FirstOrDefault(x => x.Id == master.Id);
-                    if(app!=null)
+                    
+                    var httpRequest = HttpContext.Current.Request;
+                    DocumentMaster master = null;
+                    if (httpRequest.Params["id"] != null)
                     {
-                        UploadAttachments(master);
+                        
+                        master = entity.DocumentMasters.FirstOrDefault(
+                            x => x.Id.ToString() == httpRequest.Params["id"]);
+                        if (master != null)
+                        {
+                            UploadAttachments(master);
+                        }
                     }
+                    
                     else
                     {
+                        master = new DocumentMaster();
                         master.Id = Guid.NewGuid();
                         master.DeletedTime = null;
                         master.IsDeleted = false;
+                        master.CreatedTime = DateTime.UtcNow;
                         UploadAttachments(master);
                         entity.DocumentMasters.Add(master);
                     }

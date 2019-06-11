@@ -22,7 +22,7 @@ namespace api.appstore.Controllers
                     var httpRequest = HttpContext.Current.Request;
                     if (httpRequest.Params["id"] != null)
                     {
-                        master = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
+                        master = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == httpRequest.Params["id"]);
                         if (master != null)
                         {
                             UploadAttachments(master);
@@ -30,11 +30,12 @@ namespace api.appstore.Controllers
                     }
                     else
                     {
+                        master = new AppMaster();
                         master.Id = Guid.NewGuid();
-                        UploadAttachments(master);
                         master.CreatedTime = DateTime.UtcNow;
                         master.IsDeleted = false;
                         master.DeletedTime = null;
+                        UploadAttachments(master);                        
                         entity.AppMasters.Add(master);
                     }                    
                     entity.SaveChanges();
