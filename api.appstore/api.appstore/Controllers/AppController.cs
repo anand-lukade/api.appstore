@@ -71,13 +71,20 @@ namespace api.appstore.Controllers
             dto.Version = master.Version;
             if (master.Documents.Length > 0)
             {
-                var documents = master.Documents.Split(new char[] { ';' });
-                dto.Documents = documents.ToList();
+                var documents = master.Documents.Split(new char[] { ';' });   
+                foreach(var doc in documents)
+                {
+                    dto.Documents.Add(doc);
+                }
+                
             }
             if (master.ScreenShots.Length > 0)
             {
                 var screenShots = master.ScreenShots.Split(new char[] { ';' });
-                dto.ScreenShots = screenShots.ToList();
+                foreach (var doc in screenShots)
+                {
+                    dto.ScreenShots.Add(doc);
+                }                
             }
         }
 
