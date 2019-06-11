@@ -19,7 +19,7 @@ namespace api.appstore.Controllers
                 {
                     var httpRequest = HttpContext.Current.Request;
                     ThirdParty master = null;
-                    if (httpRequest.Params["Id"]!=null)
+                    if (httpRequest.Params["id"]!=null)
                     {
                        master = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == httpRequest.Params["Id"]);
                         if (master != null)

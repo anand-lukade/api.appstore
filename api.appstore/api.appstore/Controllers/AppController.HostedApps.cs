@@ -18,11 +18,15 @@ namespace api.appstore.Controllers
             {                
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    AppMaster master = new AppMaster();
-                    var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);                    
-                    if (app!=null)                    
+                    AppMaster master = null;
+                    var httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Params["id"] != null)
                     {
-                        UploadAttachments(app);                       
+                        master = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
+                        if (master != null)
+                        {
+                            UploadAttachments(master);
+                        }
                     }
                     else
                     {
