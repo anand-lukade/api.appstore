@@ -31,6 +31,7 @@ namespace api.appstore.Controllers
                     else
                     {
                         master = new ThirdParty();
+                        master.CreatedTime = DateTime.UtcNow;
                         master.IsDeleted = false;
                         master.DeletedTime = null;
                         master.Id = Guid.NewGuid();
