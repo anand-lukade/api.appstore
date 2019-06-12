@@ -215,8 +215,17 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {                    
-                    List<DocumentMaster> apps = entity.DocumentMasters.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
-                    return Ok(apps);
+                    List<DocumentMaster> masters = entity.DocumentMasters.OrderBy(x=>x.Documents).Skip(page - 1).Take(10).ToList();
+
+                    List<DocumentMasterDto> dtos = new List<DocumentMasterDto>();
+                    foreach (var master in masters)
+                    {
+                        DocumentMasterDto dto = new DocumentMasterDto();
+                        MapDocuments(master, dto);
+                        dtos.Add(dto);
+                    }
+
+                    return Ok(dtos);
                 }
             }
             catch (Exception ex)

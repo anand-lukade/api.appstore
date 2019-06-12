@@ -21,13 +21,16 @@ namespace api.appstore.Controllers
                     var httpRequest = HttpContext.Current.Request;
                     DocumentMaster master = null;
                     if (httpRequest.Params["id"] != null)
-                    {
-                        
+                    {                        
                         master = entity.DocumentMasters.FirstOrDefault(
                             x => x.Id.ToString() == httpRequest.Params["id"]);
                         if (master != null)
                         {
                             UploadAttachments(master);
+                        }
+                        else
+                        {
+                            BadRequest("Document not found");
                         }
                     }
                     
