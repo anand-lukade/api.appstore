@@ -120,12 +120,12 @@ namespace api.appstore.Controllers
                             case "Documents":
                                 master.Documents += serverAddress + ";";
                                 break;
-                        }
-                        if (master.Documents.Length > 0)
-                        {
-                            master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
-                        }
+                        }                        
                     }
+                }
+                if (master.Documents!=null && master.Documents.Length > 0)
+                {
+                    master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
                 }
             }
         }

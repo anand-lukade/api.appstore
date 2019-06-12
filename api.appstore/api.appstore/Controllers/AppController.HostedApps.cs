@@ -27,6 +27,10 @@ namespace api.appstore.Controllers
                         {
                             UploadAttachments(master);
                         }
+                        else
+                        {
+                            BadRequest("Application not exists");
+                        }
                     }
                     else
                     {
@@ -47,50 +51,7 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
             
-        }
-        //[Route("HostedApps")]
-        //public IHttpActionResult PutAppMaster(AppMaster master)
-        //{
-        //    try
-        //    {
-        //        using (MususAppEntities entity = new MususAppEntities())
-        //        {
-        //            var app = entity.AppMasters.FirstOrDefault(x => x.Id == master.Id);
-        //            if(app!=null)
-        //            {
-        //                app.CategoryId = master.CategoryId;
-        //                app.Description = master.Description;
-
-        //                app.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
-        //                app.AndriodTabletBuild = master.AndriodTabletBuild;
-                        
-        //                app.Documents = master.Documents;
-        //                app.Icon = master.Icon;
-        //                app.IpadBuild = master.IpadBuild;
-        //                app.IpadPackageName = master.IpadPackageName;
-        //                app.IphoneBuild = master.IphoneBuild;
-        //                app.IphonePackageName = master.IphonePackageName;
-        //                app.Published = master.Published;
-        //                app.ScreenShots = master.ScreenShots;
-        //                app.Title = master.Title;
-        //                app.Version = master.Version;
-        //                entity.SaveChanges();
-        //                return Ok(app);
-        //            }
-        //            else
-        //            {
-        //                return BadRequest("INvalid request");
-        //            }
-                                                      
-                    
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-
-        //}
+        }        
         [Route("HostedApps")]
         public IHttpActionResult DeleteAppMaster(AppMaster master)
         {
@@ -116,8 +77,7 @@ namespace api.appstore.Controllers
         {                      
             var httpRequest = HttpContext.Current.Request;
             master.CategoryId = Convert.ToInt16(httpRequest.Params["categoryId"]);
-            master.Title = httpRequest.Params["title"];
-            
+            master.Title = httpRequest.Params["title"];            
             master.Description = httpRequest.Params["description"];
             master.Version= httpRequest.Params["version"];
             master.IphonePackageName = httpRequest.Params["iphonePackageName"];
@@ -169,11 +129,11 @@ namespace api.appstore.Controllers
                         }
                     }
                 }
-                if (master.Documents.Length > 0)
+                if (master.Documents!=null && master.Documents.Length > 0)
                 {
                     master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
                 }
-                if (master.ScreenShots.Length > 0)
+                if (master.ScreenShots != null && master.ScreenShots.Length > 0)
                 {
                     master.ScreenShots = master.ScreenShots.Substring(0, master.ScreenShots.Length - 1);
                 }
