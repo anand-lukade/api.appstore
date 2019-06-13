@@ -21,7 +21,8 @@ namespace api.appstore.Controllers
                     ThirdParty master = null;
                     if (httpRequest.Params["id"]!=null)
                     {
-                       master = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == httpRequest.Params["Id"]);
+                        var id = Guid.Parse(httpRequest.Params["id"]);
+                        master = entity.ThirdParties.FirstOrDefault(x => x.Id == id);
                         if (master != null)
                         {
                             UploadAttachments(master);

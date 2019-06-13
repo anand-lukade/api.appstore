@@ -21,9 +21,10 @@ namespace api.appstore.Controllers
                     var httpRequest = HttpContext.Current.Request;
                     DocumentMaster master = null;
                     if (httpRequest.Params["id"] != null)
-                    {                        
+                    {
+                        var id = Guid.Parse(httpRequest.Params["id"]);
                         master = entity.DocumentMasters.FirstOrDefault(
-                            x => x.Id.ToString() == httpRequest.Params["id"]);
+                            x => x.Id == id);
                         if (master != null)
                         {
                             UploadAttachments(master);
