@@ -107,7 +107,9 @@ namespace api.appstore.Controllers
                             case "AndriodSmartPhoneBuild":
                                 master.AndriodSmartPhoneBuild = serverAddress;
                                 break;
-
+                            case "Icon":
+                                master.Icon = serverAddress;
+                                break;
                             case "AndriodTabletBuild":
                                 master.AndriodTabletBuild = serverAddress;
                                 break;
