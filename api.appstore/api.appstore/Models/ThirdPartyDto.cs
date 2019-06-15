@@ -14,6 +14,9 @@ namespace api.appstore.Models
         public string Version { get; set; }
         public string ThirdPartyAppUrl { get; set; }
         public List<string> Documents { get; set; } = new List<string>();
+        public double? Rating { get; set; }
+        public int? Download { get; set; }
+        public List<CommentReview> CommentReviews { get; set; }
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }

@@ -168,10 +168,11 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CommonModels.cs" />
-    <Compile Include="Models\database_firewall_rules.cs">
+    <Compile Include="Models\comment.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentReview.cs" />
+    <Compile Include="Models\CommonModels.cs" />
     <Compile Include="Models\DocumentMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
@@ -182,6 +183,12 @@
     </Compile>
     <Compile Include="Models\QRLoginUserModel.cs" />
     <Compile Include="Models\QRRequest.cs" />
+    <Compile Include="Models\Rating.cs">
+      <DependentUpon>AppStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\review.cs">
+      <DependentUpon>AppStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThirdParty.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>

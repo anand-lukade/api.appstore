@@ -12,5 +12,8 @@ namespace api.appstore.Models
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }
+        public double? Rating { get; set; }
+        public int? Download { get; set; }
+        public List<CommentReview> CommentReviews { get; set; }
     }
 }

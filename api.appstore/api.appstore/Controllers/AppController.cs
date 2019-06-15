@@ -40,8 +40,41 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);                    
                     AppMasterDto app = new AppMasterDto();
+                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id).Select(x => x.Point);
+                    if (rating!=null)
+                    {
+                        app.Rating = rating.Average();
+                    }
+                    var comments = entity.comments.Where(x => x.AppId == appMaster.Id);
+                    if(comments!=null)
+                    {
+                        foreach (var comment in comments)
+                        {
+                            var review = entity.reviews.FirstOrDefault(x => x.CommentId == comment.Id);
+                            if (review != null)
+                            {
+                                app.CommentReviews.Add(new CommentReview()
+                                {
+                                    Id = comment.Id,
+                                    Comment = comment.Txt,
+                                    CommentDate = comment.CreatedTime,
+                                    Review = review.Txt,
+                                    ReviewDate = review.CreatedTime
+                                });
+                            }
+                            else
+                            {
+                                app.CommentReviews.Add(new CommentReview()
+                                {
+                                    Id = comment.Id,
+                                    Comment = comment.Txt,
+                                    CommentDate = comment.CreatedTime                                    
+                                });
+                            }
+                        }
+                    }
                     MapHostedAppObject(appMaster, app);
                     return Ok(app);
                 }
@@ -69,6 +102,7 @@ namespace api.appstore.Controllers
             dto.Published = master.Published;
             dto.Title = master.Title;
             dto.Version = master.Version;
+            dto.Download = master.Download;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });   
@@ -142,6 +176,7 @@ namespace api.appstore.Controllers
             dto.ThirdPartyAppUrl = master.ThirdPartyAppUrl;            
             dto.Title = master.Title;
             dto.Version = master.Version;
+            dto.Download = master.Download;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
@@ -199,7 +234,8 @@ namespace api.appstore.Controllers
             dto.Id = master.Id;
             dto.IsDeleted = master.IsDeleted;         
             dto.Title = master.Title;
-            dto.WebPageUrl = master.WebPageUrl1;            
+            dto.WebPageUrl = master.WebPageUrl1;
+            dto.Download = master.Download;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
@@ -257,7 +293,8 @@ namespace api.appstore.Controllers
             dto.Description = master.Description;
             dto.Id = master.Id;
             dto.IsDeleted = master.IsDeleted;
-            dto.Title = master.Title;            
+            dto.Title = master.Title;
+            dto.Download = master.Download;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });

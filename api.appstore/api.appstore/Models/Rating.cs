@@ -12,13 +12,10 @@ namespace api.appstore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class database_firewall_rules
+    public partial class Rating
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string start_ip_address { get; set; }
-        public string end_ip_address { get; set; }
-        public System.DateTime create_date { get; set; }
-        public System.DateTime modify_date { get; set; }
+        public int Id { get; set; }
+        public System.Guid AppId { get; set; }
+        public int Point { get; set; }
     }
 }

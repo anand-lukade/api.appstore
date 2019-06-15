@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mususappModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mususappModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AppMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,6 +27,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="DeletedTime" Type="datetime" />
+          <Property Name="Download" Type="int" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -34,6 +35,16 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Txt" Type="text" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="DocumentMaster">
           <Key>
@@ -46,6 +57,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="DeletedTime" Type="datetime" />
+          <Property Name="Download" Type="int" />
         </EntityType>
         <EntityType Name="LogMaster">
           <Key>
@@ -54,6 +66,24 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="logtime" Type="datetime" />
           <Property Name="logtext" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Point" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="review">
+          <Key>
+            <PropertyRef Name="Txt" />
+          </Key>
+          <Property Name="CommentId" Type="int" />
+          <Property Name="Txt" Type="text" Nullable="false" />
+          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ThirdParty">
           <Key>
@@ -69,6 +99,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="DeletedTime" Type="datetime" />
+          <Property Name="Download" Type="int" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -81,6 +112,7 @@
           <Property Name="Password" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="WebPageUrls">
           <Key>
@@ -94,49 +126,42 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="DeletedTime" Type="datetime" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="database_firewall_rules">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="start_ip_address" />
-            <PropertyRef Name="end_ip_address" />
-            <PropertyRef Name="create_date" />
-            <PropertyRef Name="modify_date" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="create_date" Type="datetime" Nullable="false" />
-          <Property Name="modify_date" Type="datetime" Nullable="false" />
+          <Property Name="Download" Type="int" />
         </EntityType>
         <EntityContainer Name="mususappModelStoreContainer">
           <EntitySet Name="AppMaster" EntityType="Self.AppMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentMaster" EntityType="Self.DocumentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogMaster" EntityType="Self.LogMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThirdParty" EntityType="Self.ThirdParty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebPageUrls" EntityType="Self.WebPageUrls" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+          <EntitySet Name="review" EntityType="Self.review" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [database_firewall_rules].[id] AS [id], 
-    [database_firewall_rules].[name] AS [name], 
-    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
-    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
-    [database_firewall_rules].[create_date] AS [create_date], 
-    [database_firewall_rules].[modify_date] AS [modify_date]
-    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+    [review].[CommentId] AS [CommentId], 
+    [review].[Txt] AS [Txt], 
+    [review].[CreatedTime] AS [CreatedTime]
+    FROM [dbo].[review] AS [review]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mususappModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MususAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppMasters" EntityType="mususappModel.AppMaster" />
+          <EntitySet Name="Categories" EntityType="mususappModel.Category" />
+          <EntitySet Name="comments" EntityType="mususappModel.comment" />
+          <EntitySet Name="DocumentMasters" EntityType="mususappModel.DocumentMaster" />
+          <EntitySet Name="LogMasters" EntityType="mususappModel.LogMaster" />
+          <EntitySet Name="Ratings" EntityType="mususappModel.Rating" />
+          <EntitySet Name="ThirdParties" EntityType="mususappModel.ThirdParty" />
+          <EntitySet Name="UserInfoes" EntityType="mususappModel.UserInfo" />
+          <EntitySet Name="WebPageUrls" EntityType="mususappModel.WebPageUrl" />
+          <EntitySet Name="reviews" EntityType="mususappModel.review" />
+        </EntityContainer>
         <EntityType Name="AppMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -159,6 +184,7 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
+          <Property Name="Download" Type="Int32" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -166,6 +192,16 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Txt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DocumentMaster">
           <Key>
@@ -178,6 +214,7 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
+          <Property Name="Download" Type="Int32" />
         </EntityType>
         <EntityType Name="LogMaster">
           <Key>
@@ -186,6 +223,14 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="logtime" Type="DateTime" Precision="3" />
           <Property Name="logtext" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppId" Type="Guid" Nullable="false" />
+          <Property Name="Point" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ThirdParty">
           <Key>
@@ -201,18 +246,20 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
+          <Property Name="Download" Type="Int32" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="WebPageUrl">
           <Key>
@@ -226,34 +273,17 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
+          <Property Name="Download" Type="Int32" />
         </EntityType>
-        <EntityType Name="database_firewall_rules">
+        <EntityType Name="review">
           <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="start_ip_address" />
-            <PropertyRef Name="end_ip_address" />
-            <PropertyRef Name="create_date" />
-            <PropertyRef Name="modify_date" />
+            <PropertyRef Name="Txt" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CommentId" Type="Int32" />
+          <Property Name="Txt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityContainer Name="MususAppEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AppMasters" EntityType="Self.AppMaster" />
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="DocumentMasters" EntityType="Self.DocumentMaster" />
-          <EntitySet Name="LogMasters" EntityType="Self.LogMaster" />
-          <EntitySet Name="ThirdParties" EntityType="Self.ThirdParty" />
-          <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
-          <EntitySet Name="WebPageUrls" EntityType="Self.WebPageUrl" />
-          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -262,109 +292,131 @@ warning 6002: The table/view 'mususapp.sys.database_firewall_rules' does not hav
           <EntitySetMapping Name="AppMasters">
             <EntityTypeMapping TypeName="mususappModel.AppMaster">
               <MappingFragment StoreEntitySet="AppMaster">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="AndriodSmartPhoneBuild" ColumnName="AndriodSmartPhoneBuild" />
-                <ScalarProperty Name="AndriodTabletBuild" ColumnName="AndriodTabletBuild" />
-                <ScalarProperty Name="IphoneBuild" ColumnName="IphoneBuild" />
-                <ScalarProperty Name="IphonePackageName" ColumnName="IphonePackageName" />
-                <ScalarProperty Name="IpadBuild" ColumnName="IpadBuild" />
-                <ScalarProperty Name="IpadPackageName" ColumnName="IpadPackageName" />
-                <ScalarProperty Name="ScreenShots" ColumnName="ScreenShots" />
-                <ScalarProperty Name="Documents" ColumnName="Documents" />
-                <ScalarProperty Name="Published" ColumnName="Published" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Download" ColumnName="Download" />
                 <ScalarProperty Name="DeletedTime" ColumnName="DeletedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+                <ScalarProperty Name="ScreenShots" ColumnName="ScreenShots" />
+                <ScalarProperty Name="IpadPackageName" ColumnName="IpadPackageName" />
+                <ScalarProperty Name="IpadBuild" ColumnName="IpadBuild" />
+                <ScalarProperty Name="IphonePackageName" ColumnName="IphonePackageName" />
+                <ScalarProperty Name="IphoneBuild" ColumnName="IphoneBuild" />
+                <ScalarProperty Name="AndriodTabletBuild" ColumnName="AndriodTabletBuild" />
+                <ScalarProperty Name="AndriodSmartPhoneBuild" ColumnName="AndriodSmartPhoneBuild" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="mususappModel.Category">
               <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="comments">
+            <EntityTypeMapping TypeName="mususappModel.comment">
+              <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Txt" ColumnName="Txt" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DocumentMasters">
             <EntityTypeMapping TypeName="mususappModel.DocumentMaster">
               <MappingFragment StoreEntitySet="DocumentMaster">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Documents" ColumnName="Documents" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Download" ColumnName="Download" />
                 <ScalarProperty Name="DeletedTime" ColumnName="DeletedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LogMasters">
             <EntityTypeMapping TypeName="mususappModel.LogMaster">
               <MappingFragment StoreEntitySet="LogMaster">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="logtime" ColumnName="logtime" />
                 <ScalarProperty Name="logtext" ColumnName="logtext" />
+                <ScalarProperty Name="logtime" ColumnName="logtime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="mususappModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ThirdParties">
             <EntityTypeMapping TypeName="mususappModel.ThirdParty">
               <MappingFragment StoreEntitySet="ThirdParty">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="ThirdPartyAppUrl" ColumnName="ThirdPartyAppUrl" />
-                <ScalarProperty Name="Documents" ColumnName="Documents" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Download" ColumnName="Download" />
                 <ScalarProperty Name="DeletedTime" ColumnName="DeletedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+                <ScalarProperty Name="ThirdPartyAppUrl" ColumnName="ThirdPartyAppUrl" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserInfoes">
             <EntityTypeMapping TypeName="mususappModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WebPageUrls">
             <EntityTypeMapping TypeName="mususappModel.WebPageUrl">
               <MappingFragment StoreEntitySet="WebPageUrls">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="WebPageUrl1" ColumnName="WebPageUrl" />
-                <ScalarProperty Name="Documents" ColumnName="Documents" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Download" ColumnName="Download" />
                 <ScalarProperty Name="DeletedTime" ColumnName="DeletedTime" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+                <ScalarProperty Name="WebPageUrl1" ColumnName="WebPageUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="database_firewall_rules">
-            <EntityTypeMapping TypeName="mususappModel.database_firewall_rules">
-              <MappingFragment StoreEntitySet="database_firewall_rules">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
-                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
-                <ScalarProperty Name="create_date" ColumnName="create_date" />
-                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <EntitySetMapping Name="reviews">
+            <EntityTypeMapping TypeName="mususappModel.review">
+              <MappingFragment StoreEntitySet="review">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Txt" ColumnName="Txt" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,5 +24,6 @@ namespace api.appstore.Models
         public bool IsDeleted { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }
+        public Nullable<int> Download { get; set; }
     }
 }
