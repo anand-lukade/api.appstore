@@ -42,10 +42,10 @@ namespace api.appstore.Controllers
                 {
                     var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
                     AppMasterDto app = new AppMasterDto();
-                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id).Select(x => x.Point);
-                    if (rating != null)
-                    {
-                        app.Rating = rating.Average();
+                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id);
+                    if (rating != null && rating.Count()>0)
+                    {                        
+                        app.Rating = rating.Average(x=>x.Point);
                     }
                     GetPostComment(entity, appMaster, app);
                     MapHostedAppObject(appMaster, app);
