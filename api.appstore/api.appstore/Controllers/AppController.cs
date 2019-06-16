@@ -90,6 +90,55 @@ namespace api.appstore.Controllers
             }
         }
 
+        public IHttpActionResult PostComment(Guid appId,CommentReview review)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+                    if(review!=null)
+                    {
+                        if(review.Id>0)
+                        {
+                            var post = entity.Posts.FirstOrDefault(x=>x.Id==review.Id);
+                            post.Txt = review.Comment;                            
+                            if (post != null && review.Review != null)
+                            {
+                                var comment = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
+                                comment.Msg = review.Review;
+                            }
+                        }
+                        else
+                        {
+                            var post=entity.Posts.Add(new Post()
+                            {
+                                AppId = appId,
+                                CreateTime = DateTime.UtcNow,
+                                Txt=review.Comment,
+                                UserName=review.Username
+                            });
+                            if (post != null && review.Review != null)
+                            {
+                                entity.Comments.Add(new Comment()
+                                {
+                                    CreateTime = DateTime.UtcNow,
+                                    PostId = post.Id,
+                                    Msg = review.Review,
+                                    UserName = review.Username
+                                });
+                            }
+                        }
+                    }
+                    entity.SaveChanges();
+                    return Ok();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         private void MapHostedAppObject(AppMaster master, AppMasterDto dto)
         {
             dto.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;

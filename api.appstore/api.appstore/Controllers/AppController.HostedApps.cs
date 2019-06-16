@@ -142,7 +142,7 @@ namespace api.appstore.Controllers
             }                                 
         }
 
-        [Route("HostedApps")]
+        [Route("HostedApps/{appId}")]
         public IHttpActionResult PutDownloadCountMaster(Guid appId)
         {
             try
@@ -164,6 +164,29 @@ namespace api.appstore.Controllers
                     }
                     entity.SaveChanges();
                     return Ok(appMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [Route("HostedApps/{appId}/{rating}")]
+        public IHttpActionResult Pust(Guid appId,int rating)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+
+                    entity.Ratings.Add(new Rating()
+                    {
+                        AppId = appId,
+                        Point = rating
+                    });
+                    entity.SaveChanges();
+                    return Ok();
                 }
             }
             catch (Exception ex)
