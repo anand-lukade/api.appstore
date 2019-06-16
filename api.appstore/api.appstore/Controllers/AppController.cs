@@ -89,7 +89,7 @@ namespace api.appstore.Controllers
                 }
             }
         }
-
+        [Route("Comments/{appId}")]
         public IHttpActionResult PostComment(Guid appId,CommentReview review)
         {
             try

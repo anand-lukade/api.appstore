@@ -172,8 +172,8 @@ namespace api.appstore.Controllers
             }
 
         }
-        [Route("HostedApps/{appId}/{rating}")]
-        public IHttpActionResult Pust(Guid appId,int rating)
+        [Route("Ratings/{rating}/{appId}")]
+        public IHttpActionResult Put(int rating, Guid appId)
         {
             try
             {
