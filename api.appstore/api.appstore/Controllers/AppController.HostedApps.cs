@@ -73,7 +73,6 @@ namespace api.appstore.Controllers
             }
 
         }
-
         private void UploadAttachments(AppMaster master)
         {                      
             var httpRequest = HttpContext.Current.Request;
@@ -141,6 +140,37 @@ namespace api.appstore.Controllers
                     master.ScreenShots = master.ScreenShots.Substring(0, master.ScreenShots.Length - 1);
                 }
             }                                 
+        }
+
+        [Route("HostedApps")]
+        public IHttpActionResult PutDownloadCountMaster(Guid appId)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                {
+
+                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id == appId);
+                    if(appMaster!=null)
+                    {
+                        if(appMaster.Download == null)
+                        {
+                            appMaster.Download = 1;
+                        }
+                        else
+                        {
+                            appMaster.Download += 1;
+                        }                        
+                    }
+                    entity.SaveChanges();
+                    return Ok(appMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

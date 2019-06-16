@@ -46,7 +46,7 @@ namespace api.appstore.Controllers
                     {
                         string token = CreateToken(info.FirstName + "." + info.LastName);
                         return Ok(new UserDetails()
-                        {
+                        {                            
                             Firstname = info.FirstName,
                             Lastname = info.LastName,
                             IsAdmin = false,

@@ -168,7 +168,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\comment.cs">
+    <Compile Include="Models\Comment.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentReview.cs" />
@@ -181,12 +181,12 @@
     <Compile Include="Models\LogMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Post.cs">
+      <DependentUpon>AppStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QRLoginUserModel.cs" />
     <Compile Include="Models\QRRequest.cs" />
     <Compile Include="Models\Rating.cs">
-      <DependentUpon>AppStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\review.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThirdParty.cs">

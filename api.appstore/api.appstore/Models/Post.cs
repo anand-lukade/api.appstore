@@ -12,10 +12,12 @@ namespace api.appstore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class review
+    public partial class Post
     {
-        public Nullable<int> CommentId { get; set; }
+        public int Id { get; set; }
         public string Txt { get; set; }
-        public Nullable<System.DateTime> CreatedTime { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
+        public string UserName { get; set; }
+        public System.Guid AppId { get; set; }
     }
 }

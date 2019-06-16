@@ -36,15 +36,15 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" />
         </EntityType>
-        <EntityType Name="comment">
+        <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="Txt" Type="text" Nullable="false" />
-          <Property Name="CreatedTime" Type="datetime" />
+          <Property Name="Msg" Type="text" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="UserName" Type="text" />
+          <Property Name="PostId" Type="int" />
         </EntityType>
         <EntityType Name="DocumentMaster">
           <Key>
@@ -67,6 +67,16 @@
           <Property Name="logtime" Type="datetime" />
           <Property Name="logtext" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Txt" Type="text" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="UserName" Type="text" />
+          <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Rating">
           <Key>
             <PropertyRef Name="Id" />
@@ -74,16 +84,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Point" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="review">
-          <Key>
-            <PropertyRef Name="Txt" />
-          </Key>
-          <Property Name="CommentId" Type="int" />
-          <Property Name="Txt" Type="text" Nullable="false" />
-          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ThirdParty">
           <Key>
@@ -131,20 +131,14 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
         <EntityContainer Name="mususappModelStoreContainer">
           <EntitySet Name="AppMaster" EntityType="Self.AppMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentMaster" EntityType="Self.DocumentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogMaster" EntityType="Self.LogMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThirdParty" EntityType="Self.ThirdParty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebPageUrls" EntityType="Self.WebPageUrls" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="review" EntityType="Self.review" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [review].[CommentId] AS [CommentId], 
-    [review].[Txt] AS [Txt], 
-    [review].[CreatedTime] AS [CreatedTime]
-    FROM [dbo].[review] AS [review]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -153,14 +147,14 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
         <EntityContainer Name="MususAppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AppMasters" EntityType="mususappModel.AppMaster" />
           <EntitySet Name="Categories" EntityType="mususappModel.Category" />
-          <EntitySet Name="comments" EntityType="mususappModel.comment" />
           <EntitySet Name="DocumentMasters" EntityType="mususappModel.DocumentMaster" />
           <EntitySet Name="LogMasters" EntityType="mususappModel.LogMaster" />
+          <EntitySet Name="Posts" EntityType="mususappModel.Post" />
           <EntitySet Name="Ratings" EntityType="mususappModel.Rating" />
           <EntitySet Name="ThirdParties" EntityType="mususappModel.ThirdParty" />
           <EntitySet Name="UserInfoes" EntityType="mususappModel.UserInfo" />
           <EntitySet Name="WebPageUrls" EntityType="mususappModel.WebPageUrl" />
-          <EntitySet Name="reviews" EntityType="mususappModel.review" />
+          <EntitySet Name="Comments" EntityType="mususappModel.Comment" />
         </EntityContainer>
         <EntityType Name="AppMaster">
           <Key>
@@ -193,16 +187,6 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="comment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AppId" Type="Guid" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Txt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="DocumentMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -223,6 +207,16 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="logtime" Type="DateTime" Precision="3" />
           <Property Name="logtext" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Txt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AppId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -275,13 +269,15 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
           <Property Name="Download" Type="Int32" />
         </EntityType>
-        <EntityType Name="review">
+        <EntityType Name="Comment">
           <Key>
-            <PropertyRef Name="Txt" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="CommentId" Type="Int32" />
-          <Property Name="Txt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Msg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PostId" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -322,17 +318,6 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="comments">
-            <EntityTypeMapping TypeName="mususappModel.comment">
-              <MappingFragment StoreEntitySet="comment">
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-                <ScalarProperty Name="Txt" ColumnName="Txt" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AppId" ColumnName="AppId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DocumentMasters">
             <EntityTypeMapping TypeName="mususappModel.DocumentMaster">
               <MappingFragment StoreEntitySet="DocumentMaster">
@@ -352,6 +337,17 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
               <MappingFragment StoreEntitySet="LogMaster">
                 <ScalarProperty Name="logtext" ColumnName="logtext" />
                 <ScalarProperty Name="logtime" ColumnName="logtime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="mususappModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Txt" ColumnName="Txt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -411,12 +407,14 @@ warning 6002: The table/view 'mususapp.dbo.review' does not have a primary key d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="reviews">
-            <EntityTypeMapping TypeName="mususappModel.review">
-              <MappingFragment StoreEntitySet="review">
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-                <ScalarProperty Name="Txt" ColumnName="Txt" />
-                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="mususappModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -40,41 +40,14 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);                    
+                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
                     AppMasterDto app = new AppMasterDto();
                     var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id).Select(x => x.Point);
-                    if (rating!=null)
+                    if (rating != null)
                     {
                         app.Rating = rating.Average();
                     }
-                    var comments = entity.comments.Where(x => x.AppId == appMaster.Id);
-                    if(comments!=null)
-                    {
-                        foreach (var comment in comments)
-                        {
-                            var review = entity.reviews.FirstOrDefault(x => x.CommentId == comment.Id);
-                            if (review != null)
-                            {
-                                app.CommentReviews.Add(new CommentReview()
-                                {
-                                    Id = comment.Id,
-                                    Comment = comment.Txt,
-                                    CommentDate = comment.CreatedTime,
-                                    Review = review.Txt,
-                                    ReviewDate = review.CreatedTime
-                                });
-                            }
-                            else
-                            {
-                                app.CommentReviews.Add(new CommentReview()
-                                {
-                                    Id = comment.Id,
-                                    Comment = comment.Txt,
-                                    CommentDate = comment.CreatedTime                                    
-                                });
-                            }
-                        }
-                    }
+                    GetPostComment(entity, appMaster, app);
                     MapHostedAppObject(appMaster, app);
                     return Ok(app);
                 }
@@ -84,6 +57,39 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        private static void GetPostComment(MususAppEntities entity, AppMaster appMaster, AppMasterDto app)
+        {
+            var posts = entity.Posts.Where(x => x.AppId == appMaster.Id).OrderByDescending(x => x.CreateTime);
+            if (posts != null)
+            {
+                foreach (var post in posts)
+                {
+                    var review = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
+                    if (review != null)
+                    {
+                        app.CommentReviews.Add(new CommentReview()
+                        {
+                            Id = post.Id,
+                            Comment = post.Txt,
+                            CommentDate = post.CreateTime,
+                            Review = review.Msg,
+                            ReviewDate = review.CreateTime
+                        });
+                    }
+                    else
+                    {
+                        app.CommentReviews.Add(new CommentReview()
+                        {
+                            Id = post.Id,
+                            Comment = post.Txt,
+                            CommentDate = post.CreateTime
+                        });
+                    }
+                }
+            }
+        }
+
         private void MapHostedAppObject(AppMaster master, AppMasterDto dto)
         {
             dto.AndriodSmartPhoneBuild = master.AndriodSmartPhoneBuild;
