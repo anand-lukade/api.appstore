@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DBScript\myDb.sql" />
     <Content Include="Global.asax" />
     <Content Include="Models\AppStore.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -74,7 +74,8 @@ namespace api.appstore.Controllers
                             Comment = post.Txt,
                             CommentDate = post.CreateTime,
                             Review = review.Msg,
-                            ReviewDate = review.CreateTime
+                            ReviewDate = review.CreateTime,
+                            Username=review.UserName
                         });
                     }
                     else
@@ -104,6 +105,7 @@ namespace api.appstore.Controllers
                             post.Txt = review.Comment;                            
                             if (post != null && review.Review != null)
                             {
+                                entity.SaveChanges();
                                 var comment = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
                                 comment.Msg = review.Review;
                             }
@@ -119,6 +121,7 @@ namespace api.appstore.Controllers
                             });
                             if (post != null && review.Review != null)
                             {
+                                entity.SaveChanges();
                                 entity.Comments.Add(new Comment()
                                 {
                                     CreateTime = DateTime.UtcNow,
