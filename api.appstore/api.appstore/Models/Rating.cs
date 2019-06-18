@@ -17,5 +17,6 @@ namespace api.appstore.Models
         public int Id { get; set; }
         public System.Guid AppId { get; set; }
         public int Point { get; set; }
+        public string Username { get; set; }
     }
 }

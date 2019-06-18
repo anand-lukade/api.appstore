@@ -84,6 +84,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Point" Type="int" Nullable="false" />
+          <Property Name="Username" Type="text" Nullable="false" />
         </EntityType>
         <EntityType Name="ThirdParty">
           <Key>
@@ -225,6 +226,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AppId" Type="Guid" Nullable="false" />
           <Property Name="Point" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ThirdParty">
           <Key>
@@ -355,6 +357,7 @@
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="mususappModel.Rating">
               <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Point" ColumnName="Point" />
                 <ScalarProperty Name="AppId" ColumnName="AppId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
