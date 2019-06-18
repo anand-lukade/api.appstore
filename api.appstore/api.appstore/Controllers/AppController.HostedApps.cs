@@ -122,23 +122,29 @@ namespace api.appstore.Controllers
                                 break;
 
                             case "ScreenShots":
-                                master.ScreenShots += serverAddress + ";";
+                                if (master.ScreenShots != null)
+                                {
+                                    master.ScreenShots += ";" + serverAddress;
+                                }
+                                else
+                                {
+                                    master.ScreenShots = serverAddress;
+                                }                                    
                                 break;
 
                             case "Documents":
-                                master.Documents += serverAddress + ";";                               
+                                if (master.Documents != null)
+                                {
+                                    master.Documents += ";" + serverAddress;
+                                }
+                                else
+                                {
+                                    master.Documents = serverAddress;
+                                }
                                 break;
                         }
                     }
-                }
-                if (master.Documents!=null && master.Documents.Length > 0)
-                {
-                    master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
-                }
-                if (master.ScreenShots != null && master.ScreenShots.Length > 0)
-                {
-                    master.ScreenShots = master.ScreenShots.Substring(0, master.ScreenShots.Length - 1);
-                }
+                }                
             }                                 
         }
 

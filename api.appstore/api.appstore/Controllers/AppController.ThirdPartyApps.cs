@@ -124,17 +124,20 @@ namespace api.appstore.Controllers
                         var serverAddress = ConfigurationManager.AppSettings["webStore"] + "UploadBuckets/" + master.Id + "_" + Path.GetFileName(postedFile.FileName);
                         postedFile.SaveAs(filePath);
                         switch (file)
-                        {                            
+                        {
                             case "Documents":
-                                master.Documents += serverAddress + ";";
+                                if (master.Documents != null)
+                                {
+                                    master.Documents += ";" + serverAddress;
+                                }
+                                else
+                                {
+                                    master.Documents = serverAddress;
+                                }
                                 break;
                         }                        
                     }
-                }
-                if (master.Documents!=null && master.Documents.Length > 0)
-                {
-                    master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
-                }
+                }                
             }
         }        
     }
