@@ -160,7 +160,7 @@ namespace api.appstore.Controllers
             dto.Published = master.Published;
             dto.Title = master.Title;
             dto.Version = master.Version;
-            dto.Download = master.Download;
+            dto.Download = master.Download??0;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });   
