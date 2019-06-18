@@ -454,6 +454,22 @@ namespace api.appstore.Controllers
             }
         }
 
-        
+        [Route("Rating")]
+        public IHttpActionResult PostDocumentsating(Rating rating)
+        {
+            try
+            {
+                using (MususAppEntities entity = new MususAppEntities())
+                { 
+                    entity.Ratings.Add(rating);
+                    entity.SaveChanges();
+                    return Ok(rating);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
