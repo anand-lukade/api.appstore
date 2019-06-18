@@ -234,7 +234,7 @@ namespace api.appstore.Controllers
             dto.ThirdPartyAppUrl = master.ThirdPartyAppUrl;            
             dto.Title = master.Title;
             dto.Version = master.Version;
-            dto.Download = master.Download;
+            dto.Download = master.Download??0;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
@@ -293,7 +293,7 @@ namespace api.appstore.Controllers
             dto.IsDeleted = master.IsDeleted;         
             dto.Title = master.Title;
             dto.WebPageUrl = master.WebPageUrl1;
-            dto.Download = master.Download;
+            dto.Download = master.Download??0;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
@@ -352,7 +352,7 @@ namespace api.appstore.Controllers
             dto.Id = master.Id;
             dto.IsDeleted = master.IsDeleted;
             dto.Title = master.Title;
-            dto.Download = master.Download;
+            dto.Download = master.Download??0;
             if (master.Documents!=null)
             {
                 var documents = master.Documents.Split(new char[] { ';' });
