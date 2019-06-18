@@ -18,6 +18,7 @@ namespace api.appstore.Controllers
                 using (MususAppEntities entity = new MususAppEntities())
                 {
                     
+                    
                     var httpRequest = HttpContext.Current.Request;
                     DocumentMaster master = null;
                     if (httpRequest.Params["id"] != null)
@@ -122,15 +123,18 @@ namespace api.appstore.Controllers
                         switch (file)
                         {
                             case "Documents":
-                                master.Documents += serverAddress + ";";
+                                if (master.Documents != null)
+                                {
+                                    master.Documents += ";"+serverAddress;
+                                }
+                                else
+                                {
+                                    master.Documents = serverAddress;
+                                }
                                 break;
                         }                        
                     }
-                }
-                if (master.Documents!=null && master.Documents.Length > 0)
-                {
-                    master.Documents = master.Documents.Substring(0, master.Documents.Length - 1);
-                }
+                }                
             }
         }
     }
