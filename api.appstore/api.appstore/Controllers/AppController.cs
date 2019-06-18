@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -453,23 +454,7 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [Route("Rating")]
-        public IHttpActionResult PostDocumentsating(Rating rating)
-        {
-            try
-            {
-                using (MususAppEntities entity = new MususAppEntities())
-                { 
-                    entity.Ratings.Add(rating);
-                    entity.SaveChanges();
-                    return Ok(rating);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
+        
     }
 }

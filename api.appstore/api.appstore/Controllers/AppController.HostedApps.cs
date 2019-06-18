@@ -178,18 +178,19 @@ namespace api.appstore.Controllers
             }
 
         }
+        [Authorize]
         [Route("Ratings/{rating}/{appId}")]
         public IHttpActionResult Put(int rating, Guid appId)
         {
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
-                {
-
+                {                    
                     entity.Ratings.Add(new Rating()
                     {
                         AppId = appId,
-                        Point = rating
+                        Point = rating,
+                        Username= RequestContext.Principal.Identity.Name
                     });
                     entity.SaveChanges();
                     return Ok();
