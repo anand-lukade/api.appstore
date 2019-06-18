@@ -47,6 +47,10 @@ namespace api.appstore.Controllers
                     {                        
                         app.Rating = rating.Average(x=>x.Point);
                     }
+                    else
+                    {
+                        app.Rating = 0;
+                    }
                     GetPostComment(entity, appMaster, app);
                     MapHostedAppObject(appMaster, app);
                     return Ok(app);
@@ -213,6 +217,15 @@ namespace api.appstore.Controllers
                 {
                     var appMaster = entity.ThirdParties.FirstOrDefault(x => x.Id.ToString() == appId);
                     ThirdPartyDto app = new ThirdPartyDto();
+                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id);
+                    if (rating != null && rating.Count() > 0)
+                    {
+                        app.Rating = rating.Average(x => x.Point);
+                    }
+                    else
+                    {
+                        app.Rating = 0;
+                    }
                     MapThirdPartyApp(appMaster, app);
                     return Ok(app);
                 }
@@ -275,6 +288,15 @@ namespace api.appstore.Controllers
                 {
                     var appMaster = entity.WebPageUrls.FirstOrDefault(x => x.Id.ToString() == appId);
                     WebpageUrlDto app = new WebpageUrlDto();
+                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id);
+                    if (rating != null && rating.Count() > 0)
+                    {
+                        app.Rating = rating.Average(x => x.Point);
+                    }
+                    else
+                    {
+                        app.Rating = 0;
+                    }
                     MapWebpageApp(appMaster, app);
                     return Ok(app);
                 }
@@ -334,7 +356,18 @@ namespace api.appstore.Controllers
             {
                 using (MususAppEntities entity = new MususAppEntities())
                 {
-                    var app = entity.DocumentMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var appMaster = entity.DocumentMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                    var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id);
+                    DocumentMasterDto app = new DocumentMasterDto();
+                    if (rating != null && rating.Count() > 0)
+                    {
+                        app.Rating = rating.Average(x => x.Point);
+                    }
+                    else
+                    {
+                        app.Rating = 0;
+                    }
+                    MapDocuments(appMaster, app);
                     return Ok(app);
                 }
             }
