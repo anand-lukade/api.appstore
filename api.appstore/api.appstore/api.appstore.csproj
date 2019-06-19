@@ -178,6 +178,7 @@
       <DependentUpon>AppStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DocumentMasterDto.cs" />
+    <Compile Include="Models\Logger.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\LogMaster.cs">
       <DependentUpon>AppStore.tt</DependentUpon>
