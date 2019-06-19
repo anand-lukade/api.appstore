@@ -49,6 +49,7 @@ namespace api.appstore.Controllers
                         {                            
                             Firstname = info.FirstName,
                             Lastname = info.LastName,
+                            Username=info.username,
                             IsAdmin = false,
                             Token = token,
                             TokenValidity = DateTime.UtcNow.AddDays(Convert.ToInt16(ConfigurationManager.AppSettings["jwtValidity"])),
@@ -93,6 +94,7 @@ namespace api.appstore.Controllers
                             Firstname = user.FirstName,
                             Lastname = user.LastName,
                             IsActive = user.IsActive,
+                            Username = user.UserName,
                             TokenValidity = DateTime.UtcNow.AddDays(Convert.ToInt16(ConfigurationManager.AppSettings["jwtValidity"])),
                             Token = token,
                             IsAdmin = user.IsAdmin
