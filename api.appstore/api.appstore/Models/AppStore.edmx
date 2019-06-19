@@ -43,7 +43,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Msg" Type="text" />
           <Property Name="CreateTime" Type="datetime" />
-          <Property Name="UserName" Type="text" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
           <Property Name="PostId" Type="int" />
         </EntityType>
         <EntityType Name="DocumentMaster">
@@ -74,7 +74,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Txt" Type="text" />
           <Property Name="CreateTime" Type="datetime" />
-          <Property Name="UserName" Type="text" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
           <Property Name="AppId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Rating">
@@ -150,12 +150,12 @@
           <EntitySet Name="Categories" EntityType="mususappModel.Category" />
           <EntitySet Name="DocumentMasters" EntityType="mususappModel.DocumentMaster" />
           <EntitySet Name="LogMasters" EntityType="mususappModel.LogMaster" />
-          <EntitySet Name="Posts" EntityType="mususappModel.Post" />
           <EntitySet Name="Ratings" EntityType="mususappModel.Rating" />
           <EntitySet Name="ThirdParties" EntityType="mususappModel.ThirdParty" />
           <EntitySet Name="UserInfoes" EntityType="mususappModel.UserInfo" />
           <EntitySet Name="WebPageUrls" EntityType="mususappModel.WebPageUrl" />
           <EntitySet Name="Comments" EntityType="mususappModel.Comment" />
+          <EntitySet Name="Posts" EntityType="mususappModel.Post" />
         </EntityContainer>
         <EntityType Name="AppMaster">
           <Key>
@@ -208,16 +208,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="logtime" Type="DateTime" Precision="3" />
           <Property Name="logtext" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Txt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreateTime" Type="DateTime" Precision="3" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AppId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -278,8 +268,18 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Msg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PostId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Txt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AppId" Type="Guid" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -339,17 +339,6 @@
               <MappingFragment StoreEntitySet="LogMaster">
                 <ScalarProperty Name="logtext" ColumnName="logtext" />
                 <ScalarProperty Name="logtime" ColumnName="logtime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Posts">
-            <EntityTypeMapping TypeName="mususappModel.Post">
-              <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="AppId" ColumnName="AppId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="Txt" ColumnName="Txt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -417,6 +406,17 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="mususappModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Txt" ColumnName="Txt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

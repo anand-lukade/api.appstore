@@ -29,11 +29,11 @@ namespace api.appstore.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<DocumentMaster> DocumentMasters { get; set; }
         public virtual DbSet<LogMaster> LogMasters { get; set; }
-        public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<ThirdParty> ThirdParties { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
         public virtual DbSet<WebPageUrl> WebPageUrls { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
     }
 }

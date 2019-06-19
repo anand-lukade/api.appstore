@@ -13,5 +13,6 @@ namespace api.appstore.Models
         public string Username { get; set; }
         public DateTime? CommentDate { get; set; }
         public DateTime? ReviewDate { get; set; }
+        public string ReviewUsername { get; set; }
     }
 }

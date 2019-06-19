@@ -24,7 +24,9 @@ namespace api.appstore.Models
         public System.DateTime CreatedTime { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }        
         public double? Rating { get; set; }
+        public double UserRating { get; set; }
         public int? Download { get; set; }
         public List<CommentReview> CommentReviews { get; set; } = new List<CommentReview>();
+        public CommentReview UserComment { get; set; }
     }
 }

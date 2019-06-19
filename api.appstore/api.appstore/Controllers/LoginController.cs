@@ -95,7 +95,7 @@ namespace api.appstore.Controllers
                             IsActive = user.IsActive,
                             TokenValidity = DateTime.UtcNow.AddDays(Convert.ToInt16(ConfigurationManager.AppSettings["jwtValidity"])),
                             Token = token,
-                            IsAdmin = true
+                            IsAdmin = user.IsAdmin
                         });
                     }
                     else

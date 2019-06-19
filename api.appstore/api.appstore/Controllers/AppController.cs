@@ -7,8 +7,9 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace api.appstore.Controllers
-{
+{    
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [Authorize]
     public partial class AppController : ApiController
     {
         [Route("HostedApps")]
@@ -35,13 +36,13 @@ namespace api.appstore.Controllers
             }
         }
         [Route("HostedApps/{appId}")]
-        public IHttpActionResult GetApp(string appId)
+        public IHttpActionResult GetApp(Guid appId)
         {
             try
             {
                 using (MususAppEntities entity = new MususAppEntities())
-                {
-                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id.ToString() == appId);
+                {                    
+                    var appMaster = entity.AppMasters.FirstOrDefault(x => x.Id == appId);
                     AppMasterDto app = new AppMasterDto();
                     var rating = entity.Ratings.Where(x => x.AppId == appMaster.Id);
                     if (rating != null && rating.Count()>0)
@@ -52,7 +53,13 @@ namespace api.appstore.Controllers
                     {
                         app.Rating = 0;
                     }
-                    GetPostComment(entity, appMaster, app);
+                    var useRating = entity.Ratings.FirstOrDefault(x => x.AppId == appMaster.Id 
+                    && x.Username.Contains(RequestContext.Principal.Identity.Name));
+                    if(useRating!=null)
+                    {
+                        app.UserRating = useRating.Point;
+                    }
+                    GetPostComment(entity, appMaster, app, RequestContext.Principal.Identity.Name.ToString());
                     MapHostedAppObject(appMaster, app);
                     return Ok(app);
                 }
@@ -62,38 +69,81 @@ namespace api.appstore.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        private static void GetPostComment(MususAppEntities entity, AppMaster appMaster, AppMasterDto app)
+        private static void GetPostComment(MususAppEntities entity, AppMaster appMaster, AppMasterDto app, string userName)
         {
-            var posts = entity.Posts.Where(x => x.AppId == appMaster.Id).OrderByDescending(x => x.CreateTime);
-            if (posts != null)
+            var userPost = entity.Posts.FirstOrDefault(x => x.AppId == appMaster.Id && x.UserName == userName);
+            if(userPost!=null)
             {
-                foreach (var post in posts)
+                var userCR = new CommentReview()
                 {
-                    var review = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
+                    Comment=userPost.Txt,
+                    CommentDate=userPost.CreateTime,
+                    Username=userName,
+                    Id=userPost.Id
+                };
+                var userComment=entity.Comments.FirstOrDefault(x => x.PostId == userPost.Id);
+                if (userComment != null)
+                {
+                    userCR.Review = userComment.Msg;
+                    userCR.ReviewDate = userComment.CreateTime;
+                    userCR.ReviewUsername = userComment.UserName;
+                }
+                app.UserComment = userCR;
+            }
+            if(app.UserComment==null)
+            {
+                var rposts = entity.Comments.Where(x => x.UserName == userName).OrderByDescending(x => x.CreateTime);
+                foreach (var rpost in rposts)
+                {
+                    var review = entity.Posts.FirstOrDefault(x => x.Id == rpost.PostId);
                     if (review != null)
                     {
                         app.CommentReviews.Add(new CommentReview()
                         {
-                            Id = post.Id,
-                            Comment = post.Txt,
-                            CommentDate = post.CreateTime,
-                            Review = review.Msg,
-                            ReviewDate = review.CreateTime,
-                            Username=review.UserName
-                        });
-                    }
-                    else
-                    {
-                        app.CommentReviews.Add(new CommentReview()
-                        {
-                            Id = post.Id,
-                            Comment = post.Txt,
-                            CommentDate = post.CreateTime
+                            Id = rpost.Id,
+                            Comment = review.Txt,
+                            CommentDate = review.CreateTime,
+                            Review = rpost.Msg,
+                            ReviewDate = rpost.CreateTime,
+                            Username = review.UserName,
+                            ReviewUsername = rpost.UserName
                         });
                     }
                 }
             }
+            else
+            {
+                var posts = entity.Posts.Where(x => x.AppId == appMaster.Id).OrderByDescending(x => x.CreateTime);
+                if (posts != null)
+                {
+                    foreach (var post in posts)
+                    {
+                        var review = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
+                        if (review != null)
+                        {
+                            app.CommentReviews.Add(new CommentReview()
+                            {
+                                Id = post.Id,
+                                Comment = post.Txt,
+                                CommentDate = post.CreateTime,
+                                Review = review.Msg,
+                                ReviewDate = review.CreateTime,
+                                ReviewUsername = review.UserName,
+                                Username = review.UserName
+                            });
+                        }
+                        else
+                        {
+                            app.CommentReviews.Add(new CommentReview()
+                            {
+                                Id = post.Id,
+                                Comment = post.Txt,
+                                CommentDate = post.CreateTime
+                            });
+                        }
+                    }
+                }                
+            }           
         }
         [Route("Comments/{appId}")]
         public IHttpActionResult PostComment(Guid appId,CommentReview review)
@@ -113,6 +163,8 @@ namespace api.appstore.Controllers
                                 entity.SaveChanges();
                                 var comment = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
                                 comment.Msg = review.Review;
+                                comment.UserName = review.Username;
+                                comment.CreateTime = DateTime.UtcNow;
                             }
                         }
                         else
@@ -124,15 +176,15 @@ namespace api.appstore.Controllers
                                 Txt=review.Comment,
                                 UserName=review.Username
                             });
-                            if (post != null && review.Review != null)
-                            {
-                                entity.SaveChanges();
+                            entity.SaveChanges();
+                            if (post != null)
+                            {                                
                                 entity.Comments.Add(new Comment()
                                 {
                                     CreateTime = DateTime.UtcNow,
                                     PostId = post.Id,
                                     Msg = review.Review,
-                                    UserName = review.Username
+                                    UserName = null
                                 });
                             }
                         }
