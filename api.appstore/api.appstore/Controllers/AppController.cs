@@ -92,22 +92,34 @@ namespace api.appstore.Controllers
             }
             if(app.UserComment==null)
             {
-                var rposts = entity.Comments.Where(x => x.UserName == userName).OrderByDescending(x => x.CreateTime);
-                foreach (var rpost in rposts)
+                var posts = entity.Posts.Where(x => x.AppId == appMaster.Id).OrderByDescending(x => x.CreateTime);
+                if (posts != null)
                 {
-                    var review = entity.Posts.FirstOrDefault(x => x.Id == rpost.PostId);
-                    if (review != null)
+                    foreach (var post in posts)
                     {
-                        app.CommentReviews.Add(new CommentReview()
+                        var review = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
+                        if (review != null)
                         {
-                            Id = rpost.Id,
-                            Comment = review.Txt,
-                            CommentDate = review.CreateTime,
-                            Review = rpost.Msg,
-                            ReviewDate = rpost.CreateTime,
-                            Username = review.UserName,
-                            ReviewUsername = rpost.UserName
-                        });
+                            app.CommentReviews.Add(new CommentReview()
+                            {
+                                Id = post.Id,
+                                Comment = post.Txt,
+                                CommentDate = post.CreateTime,
+                                Review = review.Msg,
+                                ReviewDate = review.CreateTime,
+                                ReviewUsername = review.UserName,
+                                Username = post.UserName
+                            });
+                        }
+                        else
+                        {
+                            app.CommentReviews.Add(new CommentReview()
+                            {
+                                Id = post.Id,
+                                Comment = post.Txt,
+                                CommentDate = post.CreateTime
+                            });
+                        }
                     }
                 }
             }
@@ -157,7 +169,8 @@ namespace api.appstore.Controllers
                         if(review.Id>0)
                         {
                             var post = entity.Posts.FirstOrDefault(x=>x.Id==review.Id);
-                            post.Txt = review.Comment;                            
+                            post.Txt = review.Comment;
+                            post.CreateTime = DateTime.UtcNow;                            
                             if (post != null && review.Review != null)
                             {
                                 entity.SaveChanges();
