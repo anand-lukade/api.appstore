@@ -163,7 +163,7 @@ namespace api.appstore.Controllers
                                 entity.SaveChanges();
                                 var comment = entity.Comments.FirstOrDefault(x => x.PostId == post.Id);
                                 comment.Msg = review.Review;
-                                comment.UserName = review.Username;
+                                comment.UserName = review.ReviewUsername;
                                 comment.CreateTime = DateTime.UtcNow;
                             }
                         }
