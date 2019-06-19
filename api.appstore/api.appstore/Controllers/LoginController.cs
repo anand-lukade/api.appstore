@@ -49,7 +49,7 @@ namespace api.appstore.Controllers
                         {                            
                             Firstname = info.FirstName,
                             Lastname = info.LastName,
-                            Username=info.username,
+                            Username = info.FirstName+"."+info.LastName,
                             IsAdmin = false,
                             Token = token,
                             TokenValidity = DateTime.UtcNow.AddDays(Convert.ToInt16(ConfigurationManager.AppSettings["jwtValidity"])),
