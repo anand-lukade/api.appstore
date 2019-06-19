@@ -129,7 +129,7 @@ namespace api.appstore.Controllers
                                 Review = review.Msg,
                                 ReviewDate = review.CreateTime,
                                 ReviewUsername = review.UserName,
-                                Username = review.UserName
+                                Username = post.UserName
                             });
                         }
                         else
