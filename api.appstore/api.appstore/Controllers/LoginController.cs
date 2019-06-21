@@ -45,6 +45,7 @@ namespace api.appstore.Controllers
                     if (info.IsActive)
                     {
                         string token = CreateToken(info.FirstName + "." + info.LastName);
+                        Logger.Log(info.FirstName + "." + info.LastName + " Logged in");
                         return Ok(new UserDetails()
                         {                            
                             Firstname = info.FirstName,
@@ -58,6 +59,7 @@ namespace api.appstore.Controllers
                     }
                     else
                     {
+                        Logger.Log(info.FirstName + "." + info.LastName + " is inactive");
                         return BadRequest("User is inactive");
                     }
                 }

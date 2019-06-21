@@ -11,8 +11,7 @@ namespace api.appstore.Models
                 entity.LogMasters.Add(new LogMaster()
                 {
                     logtext = message,
-                    logtime = DateTime.UtcNow,
-                    //LogType=logType
+                    logtime = DateTime.UtcNow                    
                 });
             }
         }
