@@ -1,4 +1,6 @@
 ﻿using api.appstore.Models;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -85,22 +87,13 @@ namespace api.appstore.Controllers
             master.Published = httpRequest.Params["published"]!=null? 
                 Convert.ToBoolean(httpRequest.Params["published"]) :false;
             if (httpRequest.Files.Count > 0)
-            {
-                string path = "~/UploadBuckets/";
-                string serverpath = HttpContext.Current.Server.MapPath(path);
-                if (!Directory.Exists(serverpath))
-                {
-                    Directory.CreateDirectory(serverpath);
-                }
+            {                
                 foreach (string file in httpRequest.Files)
                 {
                     var postedFile = httpRequest.Files[file];
                     if (postedFile != null && postedFile.ContentLength > 0)
                     {
-                        string str_uploadpath = HttpContext.Current.Server.MapPath("/UploadBuckets/");
-                        var filePath = str_uploadpath + master.Id+"_"+ Path.GetFileName(postedFile.FileName);
-                        var serverAddress= ConfigurationManager.AppSettings["webStore"]+"UploadBuckets/" + master.Id + "_" + Path.GetFileName(postedFile.FileName);
-                        postedFile.SaveAs(filePath);
+                        string serverAddress = Process(postedFile, master.Id);
                         switch (file)
                         {
                             case "AndriodSmartPhoneBuild":
@@ -146,6 +139,15 @@ namespace api.appstore.Controllers
                     }
                 }                
             }                                 
+        }
+        private string Process(HttpPostedFile file, Guid id)
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storageConnectionKey"]);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference(ConfigurationManager.AppSettings["containerName"]);        
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(id+"_"+file.FileName);
+            blockBlob.UploadFromStream(file.InputStream);
+            return blockBlob.Uri.AbsoluteUri;
         }
 
         [Route("HostedApps/{appId}")]
