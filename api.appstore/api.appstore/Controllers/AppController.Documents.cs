@@ -101,25 +101,15 @@ namespace api.appstore.Controllers
         {
             var httpRequest = HttpContext.Current.Request;
             master.Title = httpRequest.Params["title"];
-            master.Description = httpRequest.Params["description"];
-            
+            master.Description = httpRequest.Params["description"];            
             if (httpRequest.Files.Count > 0)
-            {
-                string path = "~/UploadBuckets/";
-                string serverpath = HttpContext.Current.Server.MapPath(path);
-                if (!Directory.Exists(serverpath))
-                {
-                    Directory.CreateDirectory(serverpath);
-                }
+            {                
                 foreach (string file in httpRequest.Files)
                 {
                     var postedFile = httpRequest.Files[file];
                     if (postedFile != null && postedFile.ContentLength > 0)
                     {
-                        string str_uploadpath = HttpContext.Current.Server.MapPath("/UploadBuckets/");
-                        var filePath = str_uploadpath + master.Id + "_" + Path.GetFileName(postedFile.FileName);
-                        postedFile.SaveAs(filePath);
-                        var serverAddress = ConfigurationManager.AppSettings["webStore"] + "UploadBuckets/" + master.Id + "_" + Path.GetFileName(postedFile.FileName);
+                        string serverAddress = Process(postedFile, master.Id);
                         switch (file)
                         {
                             case "Documents":
