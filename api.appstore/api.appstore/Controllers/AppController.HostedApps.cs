@@ -145,15 +145,15 @@ namespace api.appstore.Controllers
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storageConnectionKey"]);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();            
             CloudBlobContainer container = blobClient.GetContainerReference(ConfigurationManager.AppSettings["containerName"]);        
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("MMyyyy")+"_"+file.FileName);
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("hhmmss")+"_"+file.FileName);
             if(flag)
             {
-                blockBlob.Properties.ContentType = file.ContentType;
-                blockBlob.Properties.ContentMD5 = null;
-                blockBlob.SetProperties();
+                //blockBlob.Properties.ContentType = file.ContentType;
+                //blockBlob.Properties.ContentMD5 = null;
+                //blockBlob.SetProperties();
             }            
             blockBlob.UploadFromStream(file.InputStream);
-            return blockBlob.Uri.AbsoluteUri;
+            return blockBlob.Uri.AbsoluteUri.ToString();
         }
 
         [Route("HostedApps/{appId}")]
