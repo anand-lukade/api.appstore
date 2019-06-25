@@ -148,7 +148,7 @@ namespace api.appstore.Controllers
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(id+"_"+file.FileName);
             if(flag)
             {
-                blockBlob.Properties.ContentType = "image/jpg";
+                blockBlob.Properties.ContentType = file.ContentType;
             }            
             blockBlob.UploadFromStream(file.InputStream);
             return blockBlob.Uri.AbsoluteUri;
