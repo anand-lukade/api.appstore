@@ -149,6 +149,7 @@ namespace api.appstore.Controllers
             if(flag)
             {
                 blockBlob.Properties.ContentType = file.ContentType;
+                blockBlob.SetProperties();
             }            
             blockBlob.UploadFromStream(file.InputStream);
             return blockBlob.Uri.AbsoluteUri;
