@@ -100,7 +100,7 @@ namespace api.appstore.Controllers
                                 master.AndriodSmartPhoneBuild = serverAddress;
                                 break;
                             case "Icon":
-                                master.Icon = serverAddress;
+                                master.Icon = Process(postedFile, master.Id, true); 
                                 break;
                             case "AndriodTabletBuild":
                                 master.AndriodTabletBuild = serverAddress;
@@ -117,11 +117,11 @@ namespace api.appstore.Controllers
                             case "ScreenShots":
                                 if (master.ScreenShots != null)
                                 {
-                                    master.ScreenShots += ";" + serverAddress;
+                                    master.ScreenShots += ";" + Process(postedFile, master.Id,true);
                                 }
                                 else
                                 {
-                                    master.ScreenShots = serverAddress;
+                                    master.ScreenShots = Process(postedFile, master.Id, true); 
                                 }                                    
                                 break;
 
@@ -140,12 +140,16 @@ namespace api.appstore.Controllers
                 }                
             }                                 
         }
-        private string Process(HttpPostedFile file, Guid id)
+        private string Process(HttpPostedFile file, Guid id, bool flag=false)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storageConnectionKey"]);
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();            
             CloudBlobContainer container = blobClient.GetContainerReference(ConfigurationManager.AppSettings["containerName"]);        
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(id+"_"+file.FileName);
+            if(flag)
+            {
+                blockBlob.Properties.ContentType = "image/jpg";
+            }            
             blockBlob.UploadFromStream(file.InputStream);
             return blockBlob.Uri.AbsoluteUri;
         }
