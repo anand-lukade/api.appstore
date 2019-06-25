@@ -100,7 +100,7 @@ namespace api.appstore.Controllers
                                 master.AndriodSmartPhoneBuild = serverAddress;
                                 break;
                             case "Icon":
-                                master.Icon = Process(postedFile, master.Id, true); 
+                                master.Icon = serverAddress; 
                                 break;
                             case "AndriodTabletBuild":
                                 master.AndriodTabletBuild = serverAddress;
@@ -149,6 +149,7 @@ namespace api.appstore.Controllers
             if(flag)
             {
                 blockBlob.Properties.ContentType = file.ContentType;
+                blockBlob.Properties.ContentMD5 = null;
                 blockBlob.SetProperties();
             }            
             blockBlob.UploadFromStream(file.InputStream);
