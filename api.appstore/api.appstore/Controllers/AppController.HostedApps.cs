@@ -145,7 +145,7 @@ namespace api.appstore.Controllers
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storageConnectionKey"]);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();            
             CloudBlobContainer container = blobClient.GetContainerReference(ConfigurationManager.AppSettings["containerName"]);        
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(id+"_"+file.FileName);
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("MMyyyy")+"_"+file.FileName);
             if(flag)
             {
                 blockBlob.Properties.ContentType = file.ContentType;
