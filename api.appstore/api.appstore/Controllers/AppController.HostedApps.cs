@@ -148,9 +148,10 @@ namespace api.appstore.Controllers
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("hhmmss")+"_"+file.FileName);
             if(flag)
             {
-                //blockBlob.Properties.ContentType = file.ContentType;
-                //blockBlob.Properties.ContentMD5 = null;
-                //blockBlob.SetProperties();
+                blockBlob = container.GetBlockBlobReference("BTJG3912.JPG");
+                blockBlob.Properties.ContentType = file.ContentType;
+                blockBlob.Properties.ContentMD5 = null;
+                blockBlob.SetProperties();
             }            
             blockBlob.UploadFromStream(file.InputStream);
             return blockBlob.Uri.AbsoluteUri.ToString();
