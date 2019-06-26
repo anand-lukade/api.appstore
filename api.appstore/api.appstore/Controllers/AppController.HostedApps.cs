@@ -32,6 +32,7 @@ namespace api.appstore.Controllers
                         }
                         else
                         {
+
                             BadRequest("Application not exists");
                         }
                     }
