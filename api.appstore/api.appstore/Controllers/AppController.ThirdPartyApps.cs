@@ -114,7 +114,7 @@ namespace api.appstore.Controllers
                     var postedFile = httpRequest.Files[file];
                     if (postedFile != null && postedFile.ContentLength > 0)
                     {
-                        string serverAddress = Process(postedFile, master.Id);
+                        string serverAddress = Process(postedFile);
                         switch (file)
                         {
                             case "Documents":

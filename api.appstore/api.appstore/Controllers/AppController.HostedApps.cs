@@ -93,7 +93,7 @@ namespace api.appstore.Controllers
                     var postedFile = httpRequest.Files[file];
                     if (postedFile != null && postedFile.ContentLength > 0)
                     {
-                        string serverAddress = Process(postedFile, master.Id);
+                        string serverAddress = Process(postedFile);
                         switch (file)
                         {
                             case "AndriodSmartPhoneBuild":
@@ -117,11 +117,11 @@ namespace api.appstore.Controllers
                             case "ScreenShots":
                                 if (master.ScreenShots != null)
                                 {
-                                    master.ScreenShots += ";" + Process(postedFile, master.Id,true);
+                                    master.ScreenShots += ";" + serverAddress;
                                 }
                                 else
                                 {
-                                    master.ScreenShots = Process(postedFile, master.Id, true); 
+                                    master.ScreenShots = serverAddress; 
                                 }                                    
                                 break;
 
@@ -140,18 +140,12 @@ namespace api.appstore.Controllers
                 }                
             }                                 
         }
-        private string Process(HttpPostedFile file, Guid id, bool flag=false)
+        private string Process(HttpPostedFile file)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storageConnectionKey"]);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();            
             CloudBlobContainer container = blobClient.GetContainerReference(ConfigurationManager.AppSettings["containerName"]);        
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("hhmmss")+"_"+file.FileName);
-            if(flag)
-            {
-                //blockBlob.Properties.ContentType = file.ContentType;
-                //blockBlob.Properties.ContentMD5 = null;
-                //blockBlob.SetProperties();
-            }            
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(DateTime.Now.ToString("hhmmss")+"_"+file.FileName);            
             blockBlob.UploadFromStream(file.InputStream);
             return blockBlob.Uri.AbsoluteUri.ToString();
         }
