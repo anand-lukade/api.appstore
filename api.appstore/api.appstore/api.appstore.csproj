@@ -223,10 +223,13 @@
     <Content Include="Models\AppStore.edmx.diagram">
       <DependentUpon>AppStore.edmx</DependentUpon>
     </Content>
+    <Content Include="deploymentscript\morrisonusapi.PublishSettings" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\ApiMorrisonStore - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ApiMorrisonStore - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ApiMorrisonStore - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\morrisonusapi - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\morrisonusapi - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
